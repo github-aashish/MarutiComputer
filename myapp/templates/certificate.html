@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sedgwick Ave Display">
+    <link href="{% static 'css/certi.css' %}" rel="stylesheet">
+    <title>Certificate</title></head>
+<body>
+{% for data in student %}
+<div>
+    <span style="font-family: sans-serif;position: absolute;top: 315px;left: 572px;font-weight: bold;font-size: 18px;">G.R. No.: {{ data.regno }}</span>
+    <img src="{{ data.image.url }}" alt="Image" style="position: absolute;top: 341px;left: 598px;height: 102px;width: 90px;border-radius: 6px;border: 2px solid black;">
+    <span style="position: absolute;top: 596px;left: 260px;font-size: 18px;font-weight: bold;font-family: sans-serif;">{{ data.name }}</span>
+    <span style="position: absolute;top: 622px;left: 260px;font-size: 18px;font-weight: bold;font-family: sans-serif;">{{ data.enroll }}</span>
+  <p style="position: absolute;top: 689px;width: 794px;text-align: center;font-weight: bold;font-family: sans-serif;font-size: 18px;">{{ data.course }} </p>
+    
+    <p style="position: absolute;top: 719px;width: 794px;text-align: center;font-weight: bold;font-family: sans-serif;font-size: 18px;">{{ data.detail }}</p>
+    <span style="position: absolute;top: 763px;left: 415px;font-size: 18px;font-weight: bold;font-family: sans-serif;">{{ data.duration }}</span>
+    <span style="position: absolute;top: 817px;left: 412px;font-size: 18px;font-weight: bold;font-family: sans-serif;">{{ data.grade }}</span>
+    <span style="position: absolute;top: 955px;left: 73px;font-size: 15px;font-weight: bold;font-family: sans-serif;">{{ data.date}}</span>
+    </div>
+{% endfor %}
+
+</body>
+</html>

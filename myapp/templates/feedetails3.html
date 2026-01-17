@@ -1,0 +1,596 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filter %}
+{% block title %}Fee Details | Maruti Computer{% endblock title %}
+{% block styles %}
+    <style>
+        :root {
+            --primary-color: #87CEEB;
+            --secondary-color: #000000;
+            --tertiary-color: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary-color), #4682B4);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --border-radius: 15px;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --danger-color: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: var(--gradient);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .student-info-section {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .info-item {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(135, 206, 235, 0.3);
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .info-value.highlight {
+            color: var(--primary-color);
+        }
+
+        .student-photo {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .photo-frame {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            color: white;
+        }
+
+        .fee-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .fee-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .fee-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .fee-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .fee-card.total::before {
+            background: linear-gradient(135deg, #4682B4, #1e3a8a);
+        }
+
+        .fee-card.paid::before {
+            background: linear-gradient(135deg, var(--success-color), #2e7d32);
+        }
+
+        .fee-card.due::before {
+            background: linear-gradient(135deg, var(--danger-color), #c62828);
+        }
+
+        .fee-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .fee-card.total .fee-icon {
+            color: #4682B4;
+        }
+
+        .fee-card.paid .fee-icon {
+            color: var(--success-color);
+        }
+
+        .fee-card.due .fee-icon {
+            color: var(--danger-color);
+        }
+
+        .fee-label {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .fee-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .fee-card.total .fee-amount {
+            color: #4682B4;
+        }
+
+        .fee-card.paid .fee-amount {
+            color: var(--success-color);
+        }
+
+        .fee-card.due .fee-amount {
+            color: var(--danger-color);
+        }
+
+        .nil{
+            color: var(--success-color);
+        }
+
+        .pay-button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 5px 15px rgba(135, 206, 235, 0.4);
+        }
+
+        .pay-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(135, 206, 235, 0.6);
+        }
+
+        .pay-button:active {
+            transform: translateY(-1px);
+        }
+
+        .payment-history {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+        }
+
+        .payment-table {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--gradient);
+            color: white;
+        }
+
+        thead th {
+            padding: 1.2rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        thead th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        thead th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        tbody td {
+            padding: 1.2rem;
+            color: var(--secondary-color);
+        }
+
+        .payment-amount {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--success-color);
+        }
+
+        .payment-date {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .transaction-badge {
+            background: var(--gradient);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .no-payments {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+            font-size: 1.1rem;
+        }
+
+        .no-payments i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: var(--primary-color);
+            opacity: 0.5;
+        }
+
+        @media (max-width: 1024px) {
+            .student-info-section {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .photo-frame {
+                width: 200px;
+                height: 200px;
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .fee-amount {
+                font-size: 2rem;
+            }
+
+            .payment-table {
+                overflow-x: scroll;
+            }
+
+            table {
+                min-width: 600px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.success {
+            background: var(--success-color);
+        }
+
+        .status-indicator.pending {
+            background: var(--danger-color);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+    </style>
+{% endblock styles %}
+{% block content %}
+    <div class="container">
+        <!-- Header -->
+        <div class="header fade-in-up">
+            <h1>
+                <i class="fas fa-graduation-cap"></i>
+                Student Fee Payment Portal
+            </h1>
+            <p>Maruti Computer Education Institute</p>
+        </div>
+
+        <!-- Student Information -->
+        <div class="student-info-section fade-in-up">
+            <div class="info-card">
+                <h2 class="section-title">
+                    <i class="fas fa-user-circle"></i>
+                    Student Information
+                </h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-user"></i> Student Name
+                        </div>
+                        <div class="info-value">{{ user.usersname }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-book"></i> Course
+                        </div>
+                        <div class="info-value highlight">{{ user.course }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-phone"></i> Mobile Number
+                        </div>
+                        <div class="info-value">+91 {{ user.mobile }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-clock"></i> Batch Time
+                        </div>
+                        <div class="info-value">{{ user.batch_time }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card student-photo">
+                <div class="photo-frame">
+                    <img src="{{ user.image.url }}" alt="Student Image">
+                </div>
+            </div>
+        </div>
+
+        <!-- Fee Summary Cards -->
+        <div class="fee-summary fade-in-up">
+            <div class="fee-card total">
+                <div class="fee-icon">
+                    <i class="fas fa-receipt"></i>
+                </div>
+                <div class="fee-label">Total Fees</div>
+                <div class="fee-amount">₹{{fee_structure.total}}</div>
+                <div style="color: #666; font-size: 0.9rem;">
+                    <span class="status-indicator success"></span>
+                    Complete Course Fee
+                </div>
+            </div>
+
+            <div class="fee-card paid">
+                <div class="fee-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="fee-label">Paid Fees</div>
+                <div class="fee-amount">₹{{fee_structure.paid}}</div>
+                <div style="color: #666; font-size: 0.9rem;">
+                    <span class="status-indicator success"></span>
+                    Successfully Paid
+                </div>
+            </div>
+
+            <div class="fee-card due">
+                <div class="fee-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="fee-label">Due Fees</div>
+                {% if fee_left == "false" %}
+                <div class="fee-amount nil">NIL</div>
+                {% endif %}
+                {% if fee_left == "true" %}
+                <div class="fee-amount">₹{{fee_structure.due}}</div>
+                <button class="pay-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fas fa-credit-card"></i>
+                    Pay Now
+                </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Payment History -->
+        <div class="payment-history fade-in-up">
+            <h2 class="section-title">
+                <i class="fas fa-history"></i>
+                Payment History
+            </h2>
+            <div class="payment-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag"></i> Transaction #</th>
+                            <th><i class="fas fa-rupee-sign"></i> Payment Amount</th>
+                            <th><i class="fas fa-calendar-alt"></i> Date of Payment</th>
+                            <th><i class="fas fa-info-circle"></i> Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="transaction-badge">#001</span></td>
+                            <td><span class="payment-amount">₹1,500</span></td>
+                            <td><span class="payment-date">11/07/2025</span></td>
+                            <td>
+                                <span style="color: var(--success-color); font-weight: 600;">
+                                    <i class="fas fa-check-circle"></i> Completed
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block scripts %}
+<script>
+    // Add smooth animations on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-up');
+            }
+        });
+    });
+
+    document.querySelectorAll('.info-card, .fee-card, .payment-history').forEach((el) => {
+        observer.observe(el);
+    });
+
+    // Pay button interaction
+    document.querySelector('.pay-button').addEventListener('click', function() {
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        this.style.pointerEvents = 'none';
+        
+        setTimeout(() => {
+            alert('Payment gateway will be integrated here!');
+            this.innerHTML = '<i class="fas fa-credit-card"></i> Pay Now';
+            this.style.pointerEvents = 'auto';
+        }, 1500);
+    });
+
+    // Add hover effect to table rows
+    const tableRows = document.querySelectorAll('tbody tr');
+    tableRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            this.style.background = 'linear-gradient(135deg, #f8f9fa, #e8f4f8)';
+        });
+        
+        row.addEventListener('mouseleave', function() {
+            this.style.background = '';
+        });
+    });
+</script>
+{% endblock scripts %}

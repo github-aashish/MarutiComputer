@@ -1,0 +1,673 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filter %}
+{% block title %}Generate Certificate | Maruti Computer{% endblock title %}
+{% block styles %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #87CEEB;
+            --secondary-color: #000000;
+            --tertiary-color: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary-color), #4682B4);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --border-radius: 15px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--secondary-color);
+            overflow-x: hidden;
+            background: #f8f9fa;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Certificate Section */
+        .certificate-section {
+            margin-top: 100px;
+            padding: 3rem 5%;
+            min-height: calc(100vh - 100px);
+        }
+
+        .certificate-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        /* Banner Side */
+        .banner-side {
+            position: sticky;
+            top: 120px;
+            background: var(--gradient);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            color: white;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .banner-content {
+            text-align: center;
+        }
+
+        .student-preview {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .student-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin: 0 auto 1rem;
+            display: block;
+        }
+
+        .student-info {
+            color: var(--secondary-color);
+            text-align: center;
+        }
+
+        .student-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .student-info p {
+            font-size: 0.95rem;
+            color: #666;
+            margin: 0.25rem 0;
+        }
+
+        .banner-icon {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .banner-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .banner-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .banner-features {
+            text-align: left;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-item i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            min-width: 30px;
+        }
+
+        /* Form Side */
+        .form-side {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            box-shadow: var(--shadow);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .certificate-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.1);
+        }
+
+        .form-group input[type="file"] {
+            padding: 0.8rem;
+            cursor: pointer;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-submit {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(135, 206, 235, 0.4);
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: var(--secondary-color);
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .required {
+            color: #ff4444;
+            margin-left: 2px;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+        }
+
+        .info-box i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 2rem 5%;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .certificate-container {
+                grid-template-columns: 1fr;
+            }
+
+            .banner-side {
+                position: relative;
+                top: 0;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .certificate-section {
+                padding: 2rem 3%;
+            }
+
+            .form-side {
+                padding: 2rem;
+            }
+
+            .banner-title {
+                font-size: 2rem;
+            }
+
+            .banner-icon {
+                font-size: 4rem;
+            }
+
+            .form-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+{% endblock styles %}
+{% block content %}
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Certificate Section -->
+    <section class="certificate-section">
+        <div class="certificate-container">
+            <!-- Banner Side -->
+            <div class="banner-side">
+                <div class="banner-content">
+                    <!-- Student Preview Card -->
+                    <div class="student-preview">
+                        <img src="{{ user.image.url }}" alt="Student Photo" class="student-image">
+                        <div class="student-info">
+                            <h3>{{ user.usersname }}</h3>
+                            <p><i class="fas fa-id-card"></i> Form No: {{ user.formno }}</p>
+                            <p><i class="fas fa-book"></i> {{ user.course }}</p>
+                        </div>
+                    </div>
+
+                    <div class="banner-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h1 class="banner-title">Generate Certificate</h1>
+                    <p class="banner-subtitle">Create Official Course Certificate</p>
+                    
+                    <div class="banner-features">
+                        <div class="feature-item">
+                            <i class="fas fa-certificate"></i>
+                            <div>
+                                <strong>Official Certificate</strong>
+                                <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">Government recognized</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <strong>Verified Document</strong>
+                                <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">With unique enrollment number</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-download"></i>
+                            <div>
+                                <strong>Instant Download</strong>
+                                <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">PDF format ready to print</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-star"></i>
+                            <div>
+                                <strong>Grade System</strong>
+                                <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">Performance based grading</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Side -->
+            <div class="form-side">
+                <div class="form-header">
+                    <h2>Certificate Details</h2>
+                    <p>Fill in the certificate information carefully</p>
+                </div>
+
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <p>Please verify all details before generating the certificate. Fields marked with <span class="required">*</span> are mandatory.</p>
+                </div>
+
+                <form action="certi-generated" method="POST" enctype="multipart/form-data" class="certificate-form" id="certificateForm">
+                    {% csrf_token %}
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="regno">Registration Number <span class="required">*</span></label>
+                            <input type="text" id="regno" name="regno" value="{{ user.formno }}" placeholder="Registration number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="uname">Student Name <span class="required">*</span></label>
+                            <input type="text" id="uname" name="uname" value="{{ user.usersname }}" placeholder="Full name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course">Course Name <span class="required">*</span></label>
+                        <input type="text" id="course" name="course" value="{{ user.course }}" placeholder="Course name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="detail">Course Details <span class="required">*</span></label>
+                        <select name="detail" id="detail" required>
+                            <option value="">-- Select Course Details --</option>
+                            <option value="(Typing,Word,Excel,Powerpoint,Outlook & Internet etc.)">(Typing, Word, Excel, Powerpoint, Outlook & Internet etc.)</option>
+                            <option value="(Ms-Office, Tally with GST, DTP & Internet Technologies)">(Ms-Office, Tally with GST, DTP & Internet Technologies)</option>
+                            <option value="(Accounting, Inventory, Payroll, Banking, GST & TDS etc.)">(Accounting, Inventory, Payroll, Banking, GST & TDS etc.)</option>
+                            <option value="(Page-Maker, Corel Draw & Photoshop etc..)">(Page-Maker, Corel Draw & Photoshop etc.)</option>
+                            <option value="HTML, CSS, JAVA-Script,Wordpress,Photoshop,Uploading etc.">HTML, CSS, JAVA-Script, Wordpress, Photoshop, Uploading etc.</option>
+				<option value="Basic Computer & Typing in Gujarati">(Basic Computer & Typing in Gujarati)</option>
+				<option value="Basic Computer & Typing in English">(Basic Computer & Typing in English)</option>                           
+				<option value="---">---</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="enroll_no">Enrollment Number <span class="required">*</span></label>
+                            <input type="text" id="enroll_no" name="enroll_no" placeholder="Enter enrollment number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="grade">Grade <span class="required">*</span></label>
+                            <select name="grade" id="grade" required>
+                                <option value="">-- Choose Grade --</option>
+                                <option value="A+">A+ (Outstanding)</option>
+                                <option value="A">A (Excellent)</option>
+                                <option value="B+">B+ (Very Good)</option>
+                                <option value="B">B (Good)</option>
+                                <option value="C+">C+ (Average)</option>
+                                <option value="C">C (Pass)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="duration">Course Duration <span class="required">*</span></label>
+                            <select name="duration" id="duration" required>
+                                <option value="">-- Select Duration --</option>
+                                <option value="3 Months">3 Months</option>
+                                <option value="4 Months">4 Months</option>
+                                <option value="6 Months">6 Months</option>
+                                <option value="1 Year">1 Year</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="date">Certificate Date <span class="required">*</span></label>
+                            <input type="text" id="date" name="date" placeholder="DD/MM/YYYY" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="uimage">Update Student Photo (Optional)</label>
+                        <input type="file" id="uimage" name="uimage" accept="image/*">
+                        <small style="color: #666; font-size: 0.85rem; margin-top: 0.5rem;">Leave blank to use existing photo. Max size: 5MB</small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-submit" id="submitBtn">
+                            <i class="fas fa-certificate"></i> Generate Certificate
+                        </button>
+                        <button type="reset" class="btn btn-reset">
+                            <i class="fas fa-redo"></i> Reset Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+{% block scripts %}
+    <script>
+        // Form validation and submission
+        const form = document.getElementById('certificateForm');
+        const loading = document.getElementById('loading');
+
+        form.addEventListener('submit', function(e) {
+            // Show loading spinner
+            loading.classList.add('active');
+        });
+
+        // Date format validation
+        const dateField = document.getElementById('date');
+        dateField.addEventListener('input', function(e) {
+            let value = this.value.replace(/[^0-9]/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2);
+            }
+            if (value.length >= 5) {
+                value = value.slice(0, 5) + '/' + value.slice(5, 9);
+            }
+            this.value = value;
+        });
+
+        // File upload validation
+        document.getElementById('uimage').addEventListener('change', function(e) {
+            const file = this.files[0];
+            if (file) {
+                const fileSize = file.size / 1024 / 1024; // Convert to MB
+                if (fileSize > 5) {
+                    alert('File size should not exceed 5MB');
+                    this.value = '';
+                    return;
+                }
+                
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Please upload only JPG, JPEG or PNG images');
+                    this.value = '';
+                    return;
+                }
+            }
+        });
+
+        // Enrollment number formatting
+        document.getElementById('enroll_no').addEventListener('input', function(e) {
+            this.value = this.value.toUpperCase();
+        });
+
+        // Registration number formatting
+        document.getElementById('regno').addEventListener('input', function(e) {
+            this.value = this.value.toUpperCase();
+        });
+
+        // Reset form confirmation
+        document.querySelector('.btn-reset').addEventListener('click', function(e) {
+            if (!confirm('Are you sure you want to reset all fields?')) {
+                e.preventDefault();
+            }
+        });
+
+        // Add animation on scroll
+        const formGroups = document.querySelectorAll('.form-group');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        formGroups.forEach(group => observer.observe(group));
+
+        // Add fadeInUp animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Set today's date as default if field is empty
+        window.addEventListener('load', function() {
+            const dateField = document.getElementById('date');
+            if (!dateField.value) {
+                const today = new Date();
+                const dd = String(today.getDate()).padStart(2, '0');
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const yyyy = today.getFullYear();
+                dateField.value = dd + '/' + mm + '/' + yyyy;
+            }
+        });
+    </script>
+{% endblock scripts %}

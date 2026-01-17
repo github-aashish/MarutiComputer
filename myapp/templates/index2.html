@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maruti Computer Class</title>
+    <meta name="description" content="Maruti Computer Class Computer Class Computer Institute in Khokhra , Maninagar Ahmedabad"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&effect=3d-float">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<link rel="icon" href="{% static 'images/m-logo.png' %}">
+<style>
+        * {
+          box-sizing: border-box;
+        }
+#loading{
+position:fixed;
+width:100%;
+height:100vh;
+background:#fff
+url("{% static 'images/load.gif' %}")
+no-repeat center;
+z-index:99999;
+}
+
+        .flex-container {
+          display: flex;
+          flex-direction: row;
+          font-size: 30px;
+          text-align: center;
+        }
+       
+        .govt-img{
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+        }
+
+
+        .flex-item {
+          background-color: white;
+          padding: 10px;
+          flex: 25%;
+        }
+         
+        .flex-item p{
+          font-weight: 100px;
+          font-family: oswald;
+          font-size: 30px;
+        }
+        .choose h3{
+          color:rgb(40, 88, 246);
+        }
+        .choose{
+          margin: 30px;
+          box-sizing: border-box;
+          text-align: center;
+          font-size: 20px;
+          font-weight: 150px;
+        }
+        #write2{
+          height:6vh;
+          line-height:5vh;                      
+              font-size: 3vh;
+              font-family: oswald;
+              color: white;
+          }
+
+.flex-container-2{
+overflow-y:auto;
+display:flex;
+width:100vw;
+}
+
+.flex-container-2 img{
+width:80vw;
+margin:0.5rem;
+box-shadow:5px 5px 15px rgb(148,147,147);
+border-radius:15px;
+height:30vh;
+}
+.flex-container-2::-webkit-scrollbar{
+width:5px;
+}
+.flex-container-2::-webkit-scrollbar-track{
+background:grey;
+}
+.flex-container-2::-webkit-scrollbar-thumb{
+background:black;
+border-radius:15px;
+}
+
+
+
+/*Slider*/
+.mySlides {
+  display: none
+}
+img {
+  vertical-align: middle;
+}
+.slideshow-container {
+  max-width: 1500px;
+  position: relative;
+  margin: auto;
+}
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: rgb(94, 91, 91);
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+/* Caption text */
+.text {
+  color: #000000;
+  font-size: 25px;
+  font-weight: 500;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 4px;
+  width: 100%;
+  text-align: center;
+}
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #787676;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+/* The dots/bullets/indicators */
+.dot-img {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #009dff;  /* #999999 */
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.last-banner{
+  text-align:center;
+}
+
+.last-banner img{
+   border:3px solid black;
+   border-radius:5px;
+   padding:0.5rem;
+   width:80vw;
+   height:40vh;
+   
+}
+
+.class-text{
+   font-size:2.3vw;
+    color:black;
+    text-align:center;
+    font-weight:300;
+     font-weight: bold;              
+     font-family: oswald;
+     background-color:#0cebd4;
+    
+}
+
+
+.poster{
+  width:100%;
+  height:60vh;
+ }
+
+.dot-img:hover {
+  background-color:black; /* #111111 */
+}
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 5s;
+  animation-name: fade;
+  animation-duration: 5s;
+}
+@-webkit-keyframes fade {
+  from {
+    opacity: .3
+  }
+  to {
+    opacity: 1
+  }
+}
+@keyframes fade {
+  from {
+    opacity: .3
+  }
+  to {
+    opacity: 1
+  }
+}
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev,
+  .next,
+  .text {
+    font-size: 11px
+  }
+}
+/*Slider*/
+
+.downloads{
+display:flex;
+justify-content:center;
+align-items:center;
+}
+.downloads a{
+width:25vw;
+text-align:center;
+background-color:#0cebd4;
+color:black;
+font-weight:bold;
+border-radius:5px;
+}
+.downloads a:link{
+text-decoration:none;
+color:black;
+font-size:1rem;
+margin:1rem;
+padding:1rem;
+}
+.cou-img{
+border-radius:10px;
+box-shadow:5px 5px 8px #acadad;
+margin:10px 0;
+}
+.flex-item a{
+text-decoration:none;
+color:black;
+font-size:1rem;
+}
+
+
+
+        /* Responsive layout - makes a one column-layout instead of two-column layout */
+        @media (max-width: 800px) {
+          .choose {
+           font-size: 15px;
+           font-weight: 150px;
+          }
+        }
+@media (max-width:750px){
+.downloads{
+flex-direction:column;
+}
+.downloads a{
+width:70vw;
+}
+}
+         @media (max-width: 800px) {
+          .class-text {
+           font-size:5vw;
+          }
+        }
+         @media (max-width: 500px) {
+          .class-text {
+           font-size:4.5vw;
+          }
+        }
+       @media (max-width: 800px) {
+             .poster {
+               height:50vh;
+               }
+            }
+       @media (max-width: 800px) {
+             .last-banner img {
+               width:85vw;
+               padding:0.2rem;
+               height:30vh;
+               }
+            }
+
+	@media (max-width: 800px) {
+             .slideshow-container img {
+			max-width: 350px;
+  			position: relative;
+  			margin: auto;
+			height:22vh;
+ 		}
+            }
+
+
+       @media (max-width: 500px) {
+             .poster {
+               height:25vh;
+               }
+            }
+        @media (max-width: 1300px) {
+          .flex-item p {
+            font-size: 25px;
+            font-weight: 100px;
+          }
+        }
+          @media (max-width: 1050px){
+            .flex-item p {
+              font-size: 20px;
+              font-weight: 100px;
+            }
+          }
+            @media (max-width: 860px) {
+              .flex-item p {
+                font-weight: 500;
+                font-size: 18px;
+                font-weight: 100px;
+              }
+        }
+        @media (max-width: 1100px) {
+          .flex-item img {
+            width:220px;
+            height:220px;
+          }
+              
+        }
+
+
+        @media (max-width: 960px) {
+          .flex-item img {
+            width:180px;
+            height:180px;
+          }
+           
+          .flex-item a .cou-img{
+           width:70vw;
+          }
+        }
+        @media (max-width: 800px) {
+          .flex-item img {
+            width:50vw;
+            height:150px;
+          }
+          
+        }
+
+        @media (max-width: 800px) {
+          .flex-container {
+            flex-direction: column;
+          }
+                 
+        }
+@media (min-width: 800px){
+.flex-container-2{
+display:flex;
+justify-content:space-around;
+}
+.flex-item-2 img{
+border-radius:10px;
+box-shadow:5px 5px 10px grey;
+}
+}
+
+        @media (max-width: 400px) {
+          #write2{
+            display:none;
+          }
+        }
+        @media (min-width: 401px) {
+          #write2{
+            display:block;
+          }
+        }
+        @media (max-width: 401px) {
+          .img-2{
+            flex-direction:column;
+          }
+          .child-1 ul li{
+            line-height:0;
+          }
+          .child-1,.child-2{
+          flex:100%;
+          }
+         .child-2 img{        
+         width:100vw;
+         margin-left:10px;
+         height:16vh;
+         } 
+        }
+
+       
+
+.img-2{
+display:flex;
+}
+.child-1 ul{
+display:inline-block;
+}
+.child-1 ul li{
+line-height:45px;
+}
+
+.child-1{
+flex:40%;
+}
+.child-2{
+flex:60%;
+}
+.child-2 img{
+width:45%;
+height:1005;
+margin:5px;
+box-shadow:5px 5px 10px grey;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: black;}
+
+.upper{
+display:flex;
+position: sticky;
+justify-content:space-between;
+align-items:center;
+}
+.upper-text{
+font-size:2.6rem;
+font-weight:bold;
+width:55%;
+text-align:center;
+color:#025285;
+font-family:oswald;
+}
+.upper-1{
+width:20%;
+}
+.upper-2{
+width:25%;
+text-align:right;
+}
+.up{
+height:2rem;
+width:2rem;
+}
+
+@media (max-width: 1200px) {
+          .upper{
+            flex-direction:column;
+          }  
+          .upper-1{
+          display:none;
+           }
+           .upper-text{
+           font-size:1.5rem;
+           width:100%;
+           } 
+           .upper-2{
+           width:100%;
+           text-align:center;
+          }  
+           .up{
+                 height:1.7rem;
+                 width:1.7rem;
+           }
+           .up-1{
+             display:none;
+            }
+        }
+
+
+        </style>
+</head>
+<body onload="loadfun()">
+<div id="loading"></div>
+<!--#00bfff, #00ffd5-->
+
+
+<!--header-->
+<div class="upper" style="background-image:linear-gradient(#00bfff, #0C376A);"> 
+<div class="upper-1"><img src="{% static 'images/M-logo-2.png' %}" height="75" width="200"> </div>
+<div class="upper-text" style="color:#025285 ; text-shadow: 3px 3px 6px #FFFFFF;">MARUTI COMPUTER EDUCATION </div><div class="upper-2"><img class="up-1" src="{% static 'images/aa1.png' %}" height="60" width="95"> 
+<a href="https://www.facebook.com/sanjay.chaudhar.10" target="_blank"><img class="up" src="{% static 'images/F1.png' %}" height="25" width="25"></a> 
+<a href="https://www.instagram.com/sanjay.chaudhar.10/"><img class="up" src="{% static 'images/F2.png' %}" height="25" width="25"></a>
+<a href="https://api.whatsapp.com/send?phone=919998939925" target="_blank"><img class="up" src="{% static 'images/F3.png' %}" height="25" width="25"></a>
+<a href="tel:9998939925" class="text-white" style="text-decoration: none;"><img class="up" src="{% static 'images/F4.png' %}" height="25" width="25"></a>
+<a href="mailto:sanjay020477@gmail.com"><img class="up" src="{% static 'images/F5.png' %}" height="25" width="25"></a></div>
+</div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark " style="background:#0C376A">
+        <div class="container-fluid">
+          <!--<a class="navbar-brand" href="#">Navbar</a>-->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active navbar-brand" aria-current="page" href="{% url 'index' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbar-brand" href="{% url 'courses' %}">Courses</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbar-brand" href="{% url 'about' %}">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbar-brand" href="{% url 'contactus' %}">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbar-brand" href="showsearch">Certi-Verify</a>
+              </li>
+
+<div class="dropdown nav-item" style="background-color:#0C376A;border:none;outline:none;">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" style="background-color:#0C376A;border:none;outline:none;">
+            Student
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="showid">Student Id-card</a>
+            <a class="dropdown-item" href="https://drive.google.com/file/d/1uicSzNh63wLom1B0Y38XKyE7MGfvS4PZ/view" target="_blank">CCC Practical Book</a>
+            <a class="dropdown-item" href="https://drive.google.com/file/d/1MyM2H6GezmFWakl7ukwwfcW1HfHAdxuS/view?usp=drive_link" target="_blank">Tally Prime Book</a>
+		<a class="dropdown-item" href="https://drive.google.com/file/d/1QYQ8qX_j1Rvkv6kGrRZxAFlls1Mcwnz_/view" target="_blank">CCC Theory Exam Book</a>
+	    {% if request.session.logname == 'Exam' or request.session.logname == 'sanjay' %}
+		<a class="dropdown-item" href="https://docs.google.com/forms/d/e/1FAIpQLSdJ8hDL48ybIkqxkl2uB6qqzqYiv0AL81p7RFrIA_P6Q7E6Sw/viewform" target="_blank">CCC Exam(Eng)</a>
+		<a class="dropdown-item" href="https://docs.google.com/forms/d/e/1FAIpQLSdki6sXphmXZA3WaRku5JqQV4jBF4w1wwMxWMWSyODSohcA-g/viewform" target="_blank">CCC Exam(Guj)</a>
+		<a class="dropdown-item" href="#" target="_blank">Tally Exam</a>
+	    {% endif %}
+        </div>
+    </div>
+             
+              {% if request.session.logname == 'sanjay' %}
+			
+			<div class="dropdown nav-item" style="background-color:#0C376A;border:none;outline:none;">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" style="background-color:#0C376A;border:none;outline:none;">
+            Admin Section
+        	</button>
+        	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		<a class="dropdown-item" href="all-students">All-Students</a>
+            	<a class="dropdown-item" href="{% url 'admission' %}">New Admission</a>
+            	<a class="dropdown-item" href="{% url 'feestatus' %}">Fees Details</a>
+		<a class="dropdown-item" href="generate-certificate">Generate Certificate</a>            	
+		<a class="dropdown-item" href="showcertificate">Print Certificate</a>		
+        	</div>
+    		</div>
+                {% endif %}
+
+
+              <li class="nav-item">
+                <a class="nav-link navbar-brand" href="payment">Payment</a>
+              </li>
+            </ul>
+              {% if request.session.logname %}
+              <button type="button" class="btn btn-info" style="background-color:#FFBA0D;border:none;"><a href="logout" style="text-decoration:none;color:black;">Logout</a></button>
+              {% else %}
+            <button type="button" class="btn btn-info" style="background-color:#FFBA0D;border:none;"><a href="login" style="text-decoration:none;color:black;">Login</a></button>
+              {% endif %}
+
+            <!--<form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>-->
+          </div>
+        </div>
+      </nav>
+      <!--header-->
+
+       
+
+
+       <!--Images Slider-->
+      <div class="slideshow-container" >
+        <div class="mySlides fade" style="margin-top:1px;">
+          <div class="numbertext">1 / 8</div>
+          <img src="{% static 'images/mm3.jpg'%}" class="poster">
+          <div class="text"></div>
+        </div>
+	<div class="mySlides fade" >
+          <div class="numbertext">2 / 8</div>
+          <img src="{% static 'images/A5.jpg'%}" class="poster">
+          <div class="text"></div>
+        </div>
+        <div class="mySlides fade" >
+          <div class="numbertext">3 / 8</div>
+          <img src="{% static 'images/A7.jpg'%}"  class="poster">
+          <div class="text"></div>
+        </div>
+        <div class="mySlides fade" >
+          <div class="numbertext">4 / 8</div>
+          <img src="{% static 'images/s1.jpg'%}" class="poster">
+          <div class="text"></div>
+        </div>
+        <div class="mySlides fade" >
+          <div class="numbertext">5 / 8</div>
+          <img src="{% static 'images/Tally3.jpg'%}" class="poster">
+          <div class="text"></div>
+        </div>
+        <div class="mySlides fade" >
+          <div class="numbertext">6 / 8</div>
+          <img src="{% static 'images/S2.jpg'%}" class="poster">
+          <div class="text"></div>
+        </div>
+	<div class="mySlides fade" >
+          <div class="numbertext">7 / 8</div>
+          <img src="{% static 'images/s4.jpg'%}" class="poster">
+          <div class="text"></div>
+        </div>
+	<div class="mySlides fade" >
+          <div class="numbertext">8 / 8</div>
+          <img src="{% static 'images/Dtp.jpg'%}" class="poster">
+          <div class="text"></div>
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+      </div>
+       <div style="text-align:center">
+        <span class="dot-img" onclick="currentSlide(0)"></span>
+        <span class="dot-img" onclick="currentSlide(1)"></span>
+        <span class="dot-img" onclick="currentSlide(2)"></span>
+        <span class="dot-img" onclick="currentSlide(3)"></span>
+        <span class="dot-img" onclick="currentSlide(4)"></span>
+	<span class="dot-img" onclick="currentSlide(5)"></span>
+	<span class="dot-img" onclick="currentSlide(6)"></span>
+	<span class="dot-img" onclick="currentSlide(7)"></span>
+      </div>
+      <!--Images Slider-->
+
+
+      <!--Banner-->
+      <marquee id="write2" style="background:#0C376A" behavior="Left" scrollamount="7">IT Training Institute of CCC, Tally Prime, DTP, DCA, ADCA, Codding of C,C++, Java & Python etc. </marquee>
+      <!--Banner-->
+
+      <!--Courses-->
+
+<h4 align="center"> <font color="Green" size="3"> <B style="text-align: justify;">We provide the Education in the field of Computer, Information Technology, Accounting (Tally Prime, GST, E-Waybill), Banking & Skill Development since 2007.
+Our Computer Training Institute is Top Institute in Khokhra, Amraiwadi, CTM, Maninagar and Ahmedabad-East.
+</B></font> </h4>
+
+
+
+<div class="downloads">
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSerUO60eYP0xq6ccRH1jEn8VEGPKz1Vl38MIHxg38RI8vS_tQ/viewform" target="_blank">Inquiry Form</a>
+<a href="showsearch">Certificate Verification</a>
+<a href="showid">Student ID-Card</a>
+</div>
+ <!--Popular Courses-->
+<div class="choose">
+<h3 align="center"style="color: red; text-shadow: 2px 2px 4px #000000;"> <font face="oswald" color="red" size="6">100% JOB Oriented Popular Courses </font></h3> <hr size="4" />
+</div>
+      <div class="flex-container">
+        <div class="flex-item"> <a href="ccc"><img class="cou-img" src="{% static 'images/q3.jpg'%}"></a><a href="ccc" > <h6> <b>CCC Govt.Certificate 3-Months  </b></h6></a></div>
+        <div class="flex-item"> <a href="tally"><img class="cou-img" src="{% static 'images/q4.jpg'%}"> <a href="tally"> <h6> <b> Tally Prime with GST 3-Months</b></h6></a></div>
+        <div class="flex-item"> <a href="dca"><img class="cou-img" src="{% static 'images/q8.jpg'%}"></a> <a href="dca" > <h6><b> DCA (MSO,CCC,Tally,DTP)6-Months</b></h6></a></div>
+       <div class="flex-item"> <a href="codding"><img class="cou-img" src="{% static 'images/q6.jpg'%}"></a><a href="codding" > <h6><b> C & C++, Java & Python Codding </b></h6></a></div>
+      </div>
+<!-Popular -Courses-->
+      <!--Why US-->	
+	
+<div class="choose">
+        <h3 align="center"style="color: green; text-shadow: 2px 2px 2px #007700;"> <font face="oswald" color="green" size="6"> Download Study Material & CCC Exam Book</font> </h3>	
+	<div class="downloads">
+<a href="https://drive.google.com/file/d/1QYQ8qX_j1Rvkv6kGrRZxAFlls1Mcwnz_/view" target="_blank">CCC Theory Exam Book</a>
+<a href="https://drive.google.com/file/d/1uicSzNh63wLom1B0Y38XKyE7MGfvS4PZ/view" target="_blank">CCC Plactical Book</a>
+<a href="https://drive.google.com/file/d/1MyM2H6GezmFWakl7ukwwfcW1HfHAdxuS/view?usp=drive_link">Tally Prime Book</a>
+</div></div>
+
+<h3 align="center" style="color: Blue; text-shadow: 2px 2px 3px #000077;"> <font face="oswald" color="#0d356e" size="6"> FEATURED COURSES </font></h3>
+
+      <div class="flex-container">
+        <div class="flex-item"><p><a href="certificate" style="text-decoration:none;color:black;"><b style="color:red; font-size: 26px;">Certificate Courses</b></a></p><a href="certificate"><img src="{% static 'images/c6.jpg'%}"></a> <br> <p><font size="4" color="#0d356e" > Basic, MS-Office, CCC, Tally Prime with GST, DTP, C & C++, Java & Python, Programming & Codding, Auto-Cad etc.</font></p></div>
+        <div class="flex-item"><p><a href="diploma" style="text-decoration:none;color:black;"><b style="color:red; font-size: 26px;">Diploma Courses</b></a></p><a href="diploma"><img src="{% static 'images/c7.jpg'%}"></a> <br> <p><font size="4" color="#0d356e" > DCA (Dip. in Computer Application), DIT (Dip. in Information Techonology) &  Web-site Designing & Uploading etc.
+
+etc.</font></p></div>
+        <div class="flex-item"><p><a href="advdiploma" style="text-decoration:none;color:black;"><b style="color:red; font-size: 26px;">Adv. Diploma Courses</b></a></p><a href="advdiploma"><img src="{% static 'images/c8.jpg'%}"></a> <br><p> <font size="4" color="#0d356e" > ADCA(Adv.Dip. In Computer Application), PGDCA (PG Dip. in Computer Application), Dip. in Computer Teachers Training etc. 
+</font></p></div>
+        <div class="flex-item"><p><a href="vocational" style="text-decoration:none;color:black;"><b style="color:red; font-size: 26px;">Vocational Courses</b></a></p><a href="vocational"><img src="{% static 'images/c4.jpg'%}"></a><br> <p><font size="4" color="#0d356e" > Spoken English, 
+Certificate in Interior Designing, Imitation Jewellery, Beautician Course, Std- 10 & 12 Computer Tuition etc.</font></p></div>
+      </div>
+      <!--Courses-->
+
+<div  style="background-image:linear-gradient(to right, #00bfff, #00ffd5);">
+   <div class="choose">
+       <h3 style="color: white; text-shadow: 2px 2px 3px #000077;"> ~WHY CHOOSE MARUTI COMPUTER EDUCATION~ </h3></div>
+<div class="img-2">
+<div class="child-1">
+	<ul> 
+		<li> 100% Job Assistance Courses</li>
+		<li> 100% Practical Training </li>
+		<li> Up to Diploma Courses Available</li>
+		<li> Small Batches for Personal Attention</li>
+		<li> Well trained Faculty & Upgraded System</li>
+	</ul>
+</div>
+		<div class="child-2"><img class="cou-img" src="{% static 'images/job4.jpg'%}"><img class="cou-img" src="{% static 'images/job2.jpg'%}"></div>
+</div>
+        <div class="choose" style="text-align: justify;">
+ Maruti Computer Classes stands out as the prime choice for comprehensive and effective Computer Education with a legacy of excellence spanning over a decade, Maruti Computer Classes offers a unique blend of expert faculty, modern infrastructure, and hands-on learning. Students benefit from a wide array of courses, from fundamental computer skills to advanced programming languages, all tailored to meet industry demands.
+Register under All India Council For Technical Skill Devlopment.
+
+      </div></div>
+      <!--Why US-->
+ <!--Student Photos-->
+
+
+<div class="choose">
+<h3 align="center"> <font face="oswald" color="Green" size="6"> Photo Gallery  </font></h3> <hr size="4" />
+</div>
+      <div class="flex-container-2">
+        <img  src="{% static 'images/Sp1.jpg'%}">
+        <img  src="{% static 'images/Sp2.jpg'%}">
+        <img  src="{% static 'images/Sp3.jpg'%}">
+        <img  src="{% static 'images/Sp4.jpg'%}">
+      </div>
+
+
+
+
+<!-Student Photos-->
+<hr size="4" />
+<br>
+
+      <!--GOVT-IMAGES-->
+      <div class="govt-img">
+        <div><img src="{% static 'images/skill.png'%}" style="height:60px;width:70px;"></div>
+        <div><img src="{% static 'images/msme.png'%}" style="height:60px;width:70px;"></div>
+        <div><img src="{% static 'images/iso.png'%}" style="height:60px;width:70px;"></div>
+	<div><img src="{% static 'images/mk1.jpg'%}" style="height:60px;width:70px;"></div>
+	<div><img src="{% static 'images/aciet.png'%}" style="height:60px;width:70px;"></div>
+	<div><img src="{% static 'images/M-logo1.png'%}" style="height:60px;width:70px;"></div>
+        <div><img src="{% static 'images/digital India.png'%}" style="height:60px;width:70px;"></div>
+      </div>
+      <!--GOVT-IMAGES-->
+<br>
+      <div class="last-banner"><img src="{% static 'images/two.gif'%}"></div>
+<br>
+      <!--footer-->
+      <footer class="text-white text-center text-lg-start" style="background:#0C376A">
+        <!-- Grid container -->
+        <div class="container p-4">
+          <!--Grid row-->
+          <div class="row">
+            <!--Grid column-->
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+              <h5 class="text-uppercase" style="color: white;">Discover Tech Excellence: Unleash Your Digital Potential</h5>
+
+              <p style="color:white;font-weight:500;">
+                Empower yourself with cutting-edge skills in coding, software, and hardware. Our expert-led computer classes provide hands-on learning for all levels. Ignite your passion for technology and chart a successful course in the digital landscape. Join us today and embark on your journey to technical mastery.
+              </p>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+              <h5 class="text-uppercase" style="color:white;">Quick Links</h5>
+
+              <ul class="list-unstyled mb-0">
+                <li>
+                  <a href="{% url 'index' %}" class="text-white">Home</a>
+                </li>
+                <li>
+                  <a href="{% url 'courses' %}" class="text-white">Courses</a>
+                </li>
+                <li>
+                  <a href="showsearch" class="text-white">Certificate Verification</a>
+                </li>
+                <li>
+                  <a href="{% url 'about' %}" class="text-white">About Us</a>
+                </li>
+ 		<li>
+                  <a href="{% url 'payment' %}" class="text-white"> Online-Payment</a>
+                </li>
+		
+              </ul>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+              <h5 class="text-uppercase mb-0" style="color:white;">Contact Us</h5>
+
+              <ul class="list-unstyled" style="margin-top:10px;">
+                <li>
+                  <a href="tel:9998939925" class="text-white" style="text-decoration: none;"><i class="fa fa-phone" aria-hidden="true" style="font-size:20px;"></i>&nbsp;&nbsp;&nbsp;<span style="text-decoration:none;font-weight:bold;">9998939925</span></a>
+                </li>
+                <li>
+                  <a href="mailto:sanjay020477@gmail.com" class="text-white" style="text-decoration: none;"><i class="fa fa-envelope-o" aria-hidden="true" style="font-size:20px;"></i>&nbsp;&nbsp;&nbsp;<span style="text-decoration:none;font-weight:bold;">sanjay020477@gmail.com</span></a>
+                </li>
+                <li><img src="{% static 'images/M-logo-2.png' %}" height="80" width="220"></li>
+              </ul>
+		
+            </div>
+            <!--Grid column-->
+          </div>
+          <!--Grid row-->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+          © 2020 Copyright:
+          <a class="text-white" href="{% url 'index' %}">maruticomputer.in</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+      <!--footer-->
+
+      <script>
+        let slideIndex = 0;
+        let timeoutId = null;
+        const slides = document.getElementsByClassName("mySlides");
+        const dots = document.getElementsByClassName("dot-img");
+
+        showSlides();
+        function currentSlide(index) {
+             slideIndex = index;
+             showSlides();
+        }
+       function plusSlides(step) {
+
+          if(step < 0) {
+              slideIndex -= 2;
+
+              if(slideIndex < 0) {
+                slideIndex = slides.length - 1;
+              }
+          }
+
+          showSlides();
+       }
+        function showSlides() {
+          for(let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+            dots[i].classList.remove('active');
+          }
+          slideIndex++;
+          if(slideIndex > slides.length) {
+            slideIndex = 1
+          }
+          slides[slideIndex - 1].style.display = "block";
+          dots[slideIndex - 1].classList.add('active');
+           if(timeoutId) {
+              clearTimeout(timeoutId);
+           }
+          timeoutId = setTimeout(showSlides, 6000); // Change image every 5 seconds
+        }
+      </script>
+<script>
+var load = document.getElementById("loading");
+function loadfun(){
+load.style.display = 'none';
+}
+</script>
+</body>
+</html>

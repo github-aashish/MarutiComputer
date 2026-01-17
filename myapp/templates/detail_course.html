@@ -1,0 +1,674 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filter %}
+{% block title %}Fee Details | Maruti Computer{% endblock title %}
+{% block styles %}
+    <style>
+        :root {
+            --primary-color: #87CEEB;
+            --secondary-color: #000000;
+            --tertiary-color: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary-color), #4682B4);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --border-radius: 15px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--secondary-color);
+            overflow-x: hidden;
+            background: #f8f9fa;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background: var(--gradient);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .course-header {
+            margin-top: 80px;
+            background: var(--gradient);
+            color: white;
+            padding: 4rem 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: skewX(-15deg);
+            transform-origin: top;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 1;
+        }
+
+        .course-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            color:white;
+        }
+
+        .course-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .course-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-item i {
+            font-size: 1.2rem;
+        }
+
+        .course-content {
+            padding: 4rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        .main-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .info-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .info-value {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .price-tag {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .enroll-btn {
+            width: 100%;
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        .enroll-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .description {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .highlight-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .highlight-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .highlight-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-text {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .syllabus-modules {
+            margin-top: 2rem;
+        }
+
+        .module {
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .module-header {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .module-header:hover {
+            background: #f8f9fa;
+        }
+
+        .module-title {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .module-content {
+            padding: 0 1.5rem 1.5rem;
+            display: none;
+        }
+
+        .module.active .module-content {
+            display: block;
+        }
+
+        .module.active .module-header i {
+            transform: rotate(90deg);
+        }
+
+        .module-header i {
+            transition: transform 0.3s ease;
+            color: var(--primary-color);
+        }
+
+        .topic-list {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .topic-list li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .topic-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-card {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-section {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        @media (max-width: 968px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .course-title {
+                font-size: 2rem;
+            }
+
+            .course-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .course-header {
+                padding: 3rem 5%;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .info-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+{% endblock styles %}
+{% block content %}
+<section class="course-header">
+    <div class="header-content">
+        <div class="breadcrumb">
+            <a href="#">Home</a>
+            <span>/</span>
+            <a href="#">Courses</a>
+            <span>/</span>
+            <span>CCC</span>
+        </div>
+        <h1 class="course-title">{{ course.course_name}} ({{ course.course_alias }})</h1>
+        <p class="course-subtitle">Master Essential Computer Skills with Government Certified Course</p>
+        <div class="course-meta">
+            <div class="meta-item"><i class="fas fa-clock"></i><span>{{ course.course_duration }} Duration</span></div>
+            <div class="meta-item"><i class="fas fa-users"></i><span>{{ course.total_students }}+ Students Enrolled</span></div>
+            <div class="meta-item"><i class="fas fa-star"></i><span>{{ course.rating }}/5 Rating</span></div>
+            <div class="meta-item"><i class="fas fa-certificate"></i><span>Government Certified</span></div>
+        </div>
+    </div>
+</section>
+<section class="course-content">
+    <div class="content-grid">
+        <div class="main-content">
+            <h2 class="section-title">Course Overview</h2>
+            <p class="description">{{ course.description }}</p>
+            <div class="highlights">
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-certificate"></i></div>
+                    <div class="highlight-text">Government Certified</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-laptop"></i></div>
+                    <div class="highlight-text">Practical Training</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-book-reader"></i></div>
+                    <div class="highlight-text">Study Material</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon"><i class="fas fa-clock"></i></div>
+                    <div class="highlight-text">Flexible Timings</div>
+                </div>
+            </div>
+            <h2 class="section-title" style="margin-top: 3rem;">What You'll Learn</h2>
+            <div class="syllabus-content">
+                <div class="syllabus-section">
+                    <ul class="topic-list">
+                        {% for tech in techs_list %}
+                        <li>{{ tech }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <h2 class="section-title" style="margin-top: 3rem;">Course Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <div class="feature-title">Expert Faculty</div>
+                    <p>Learn from Government certified trainers</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-desktop"></i></div>
+                    <div class="feature-title">Computer Lab</div>
+                    <p>Modern lab with latest computers</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-book"></i></div>
+                    <div class="feature-title">Study Materials</div>
+                    <p>Comprehensive notes & practice tests</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-user-clock"></i></div>
+                    <div class="feature-title">Batch Flexibility</div>
+                    <p>Morning, afternoon & evening batches</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                    <div class="feature-title">Doubt Support</div>
+                    <p>One-on-one doubt clearing sessions</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-tasks"></i></div>
+                    <div class="feature-title">Mock Tests</div>
+                    <p>Regular practice tests & assessments</p>
+                </div>
+            </div>
+            <div class="contact-section">
+                <h2 class="section-title">Have Questions? Get in Touch</h2>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <div style="font-weight: bold;">Call Us</div>
+                            <div style="color: #666;">+91 99989 39925</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i></div>
+                        <div>
+                            <div style="font-weight: bold;">Email Us</div>
+                            <div style="color: #666;">sanjay020477@gmail.com</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="info-card">
+                <h3>Course Information</h3>
+                <div class="info-item">
+                    <span class="info-label">Duration</span>
+                    <span class="info-value">{{ course.course_duration }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Classes</span>
+                    <span class="info-value">Mon - Sat</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Timing</span>
+                    <span class="info-value">Flexible</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Mode</span>
+                    <span class="info-value">Offline</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Language</span>
+                    <span class="info-value">English / Hindi</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Certificate</span>
+                    <span class="info-value">Government</span>
+                </div>
+            </div>
+            <div class="info-card">
+                <h3>Course Fee</h3>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <div class="price-tag">₹{{ course.total_fees }}</div>
+                    <div style="color: #666; margin-top: 0.5rem;">Inclusive of study material</div>
+                </div>
+                <button class="enroll-btn"><i class="fas fa-user-plus"></i> Enroll Now</button>
+            </div>
+            <div class="info-card">
+                <h3>Eligibility</h3>
+                <p style="line-height: 1.8;">
+                    {% for eligibilty in eligibility_list %}
+                    • {{ eligibilty }}<br></p>
+                    {% endfor %}
+            </div>
+            <div class="info-card">
+                <h3>Exam Details</h3>
+                <div class="info-item">
+                    <span class="info-label">Exam Mode</span>
+                    <span class="info-value">{{ course.exam_mode }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Duration</span>
+                    <span class="info-value">{{ course.exam_duration }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Questions</span>
+                    <span class="info-value">{{ course.no_of_questions }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Passing</span>
+                    <span class="info-value">{{ course.passing_percentage}}% Marks</span>
+                </div>
+            </div>
+            <div class="info-card">
+                <h3>Why Choose Us?</h3>
+                <ul class="topic-list" style="padding-left: 0;">
+                    <li>100% Pass Success Rate</li>
+                    <li>Experienced Faculty</li>
+                    <li>Modern Computer Lab</li>
+                    <li>Free Demo Class</li>
+                    <li>Exam Registration Support</li>
+                    <li>Job Assistance</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% block scripts %}
+<script>
+    function toggleModule(element) {
+        const module = element.parentElement;
+        const allModules = document.querySelectorAll('.module');
+        allModules.forEach(m => {
+            if (m !== module) {
+                m.classList.remove('active');
+            }
+        });
+        module.classList.toggle('active');
+    }
+    document.querySelector('.back-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        window.history.back();
+    });
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    document.querySelectorAll('.feature-card, .module, .highlight-item, .testimonial-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+    });
+    document.querySelector('.module')?.classList.add('active');
+</script>
+{% endblock scripts %}

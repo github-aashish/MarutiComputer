@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Maruti Computer Class Computer Class Computer Institute in Khokhra , Maninagar Ahmedabad"/>
+    <title>{% block title %}{% endblock title %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* Custom CSS for messages */
+        .message-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 300px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .message.success {
+            background-color: #28a745;
+        }
+
+        .message.error {
+            background-color: #dc3545;
+        }
+
+        .message.info {
+            background-color: #17a2b8;
+        }
+
+        .message.warning {
+            background-color: #ffc107;
+            color: #212529; /* Darker text for better contrast */
+        }
+
+        .message-close {
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+            padding: 0;
+        }
+
+        .message-close:hover {
+            color: #ddd;
+        }
+
+        .message.fade-out {
+            opacity: 0;
+        }
+        /*Auth Drop Down*/
+        .drop-btn{
+            background: var(--gradient);
+            color: white;
+            padding: 0.7rem 0.9rem;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .auth-drop{
+            display: inline-block;
+        }
+        .dropdown-content{
+            display: none;
+            position:absolute;
+            border-radius: 8px;
+            background-color: #fff;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.33);
+            right: 20px;
+            z-index: 1;
+        }
+        .dropdown-content a{
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .show{
+            display: block;
+        }
+        /* Mobile Navigation */
+        .mobile-navigation{
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+    </style>
+    {% block styles %}
+    {% endblock styles %}
+</head>
+<body>
+    {% include 'header.html' %}
+    <!-- Messages container -->
+    {% if messages %}
+    <div class="message-container">
+        {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            <span>{{ message }}</span>
+            <button class="message-close">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% block content %}{% endblock content %}
+    {% include 'footer.html' %}
+    {% block scripts %}{% endblock scripts %}
+    <script>
+        function toggleAuth(){
+            document.getElementById("auth-drop").classList.toggle("show")
+        }
+        // Close the drop down if the user clicks outside of item
+        window.onclick = function(event){
+            if (!event.target.matches('.drop-btn')){
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++){
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')){
+                        openDropdown.classList.remove('show')
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const messages = document.querySelectorAll('.message');
+            messages.forEach(function (message) {
+                // Auto-close after 2 seconds
+                setTimeout(function () {
+                    message.classList.add('fade-out');
+                    setTimeout(function () {
+                        message.remove();
+                    }, 500); // Match transition duration
+                }, 2000);
+
+                // Manual close button
+                const closeButton = message.querySelector('.message-close');
+                closeButton.addEventListener('click', function () {
+                    message.classList.add('fade-out');
+                    setTimeout(function () {
+                        message.remove();
+                    }, 500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Maruti Computer | Generate Certificate{% endblock title %}
+{% block content %}
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Generate Certificate</h1>
+            <p class="page-subtitle">Please enter the form number below</p>
+        </div>
+
+        <div class="form-container">
+            <form id="registrationForm" method="post" action="generate-certificate">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="regNumber" class="form-label">Form Number</label>
+                    <input 
+                        type="text" 
+                        id="regNumber" 
+                        name="form_no" 
+                        class="form-input" 
+                        placeholder="Enter Form No (XXXX/XXX)"
+                        required
+                    >
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </main>
+{% endblock content %}
+{% block scripts %}
+    <script>
+        // Initialize AOS if needed
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    offset: 100
+                });
+            }
+        });
+    </script>
+{% endblock scripts %}

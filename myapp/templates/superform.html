@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Super Form | Maruti Computer{% endblock title %}
+{% block content %}
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Registration Form</h1>
+            <p class="page-subtitle">Please enter your registration number below</p>
+        </div>
+
+        <div class="form-container">
+            <form id="registrationForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="regNumber" class="form-label">Registration Number</label>
+                    <input 
+                        type="text" 
+                        id="regNumber" 
+                        name="regNumber" 
+                        class="form-input" 
+                        placeholder="Enter your registration number"
+                        required
+                    >
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+
+            <div class="loading" id="loadingSpinner">
+                <div class="spinner"></div>
+                <span>Processing...</span>
+            </div>
+
+            <div class="response-message" id="responseMessage"></div>
+        </div>
+    </main>
+{% endblock content %}
+
+{% block scripts %}
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById('registrationForm');
+            const loading = document.getElementById('loadingSpinner');
+            const responseMessage = document.getElementById('responseMessage');
+            const regNumber = document.getElementById('regNumber').value;
+
+            // Show loading
+            loading.style.display = 'block';
+            responseMessage.style.display = 'none';
+
+            // Simulate API call (replace with actual API call)
+            setTimeout(() => {
+                loading.style.display = 'none';
+                responseMessage.style.display = 'block';
+                
+                // Example validation - replace with actual validation logic
+                if (regNumber.length >= 6) {
+                    responseMessage.className = 'response-message success';
+                    responseMessage.textContent = 'Registration number verified successfully!';
+                    form.reset();
+                } else {
+                    responseMessage.className = 'response-message error';
+                    responseMessage.textContent = 'Invalid registration number. Please try again.';
+                }
+            }, 1500);
+        }
+
+        // Initialize AOS if needed
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    offset: 100
+                });
+            }
+        });
+    </script>
+{% endblock scripts %}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans">
+    <title>Identity E-Card</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+            font-family: Josefin Sans;
+            background:lightblue;
+		
+        }
+        .heading{
+            background-color:#025285 ;
+            text-align: center;
+            padding: 1px;
+            border-top-right-radius:40px ;
+            border-top-left-radius: 40px;
+        }
+        .heading h1{
+            text-shadow: 3px  3px 3px rgb(255,255,255,0.2);
+            color: white;
+        }
+        .container{
+            border-radius: 40px;
+            max-width: 500px;
+            margin: auto;
+            margin-top: 10px;
+            background-color:pink;
+            box-shadow: 0 26px 42px rgba(0, 0, 0, 0.1);
+        }
+        .image{
+            text-align: center;
+            padding: 10px;
+        }
+        .image img{
+            width: 120px;
+            height:130px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);
+        }
+        .details{
+            padding:2px;
+            /*display: flex;*/
+        }
+        .details div span{
+            font-size: 18px;
+            font-weight: bold;
+            line-height:40px;
+        }
+        .details_div{
+            display: flex;
+        }
+        .one{
+            flex: 20%;
+            text-align: left;
+            padding-right: 10px;
+            height: 90%;
+            display: block;
+        }
+        .two{
+            flex: 80%;
+            height: 90%;
+            display: block;
+        }
+        
+        .f_details{
+            padding: 10px;
+            text-align: center;
+            margin: 0;
+            background-color:#025285;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius:20px ;
+        }
+        hr{
+            margin: 0;
+        }
+        .f_details h2 {
+            text-align: center;
+            color: rgb(255, 255, 255);;
+            font-family: Josefin Sans;
+            margin: 0;
+            padding: 2px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.307);
+        }
+
+        .f_details p {
+            text-align: center;
+            margin: 0;
+            padding: 2px;
+            color: rgb(255, 255, 255);
+            font-size: 22px;
+            font-weight: bold;
+            font-family: Josefin Sans;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.307);
+        }
+
+        .f_details p span,a {
+            color: black;
+            font-family: Josefin Sans;
+            font-size: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.307);
+        }
+        @media screen and (max-width: 500px) and (min-width: 300px) {
+            .container{
+                width: 95vw;
+                margin: auto;
+                margin-top: 10px;
+            }
+            .one{
+                flex:30%;
+            }
+            .two{
+                flex:70%;
+            }
+            .details div span{
+                font-size: 15px;
+                font-weight: bold;
+                line-height: 25px;
+            }
+            .image img{
+                width: 100px;
+                height:120px;
+            }
+            .f_details h2{
+                font-size: 20px;
+            }
+            .f_details p{
+                font-size: 18px;
+            }
+            .f_details p span,a{
+                font-size: 16px;
+            }
+        }
+        @media screen and (max-width: 299px){
+            .image img{
+                width: 80px;
+                height:100px;
+            }
+            .heading h1{
+                font-size: 20px;
+                }
+            .one{
+                flex:35%;
+            }
+            .two{
+                flex: 65%;
+            }
+            .details div span{
+                font-size: 15px;
+                line-height: 20px;
+            }
+            .f_details h2{
+                font-size: 17px;
+            }
+            .f_details p{
+                font-size: 15px;
+            }
+            .f_details p span,a{
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+{% for info in idstudent %}
+    <div class="container">
+        <div class="heading"><h1>Identity E-card</h1></div>
+        <div class="image">
+            <img src="{{ info.image.url }}" alt="Student Image">
+        </div>
+        <div class="details">
+            <div class="details_div"><span class="one">&nbsp; Name &nbsp; : </span><span class="two">{{ info.usersname }}</span></div>
+            <div class="details_div"><span class="one">&nbsp; Course &nbsp;:</span><span class="two">{{ info.course }} 
+            </span></div>
+            <div class="details_div"><span class="one">&nbsp; DOB &nbsp;&nbsp;&nbsp; :</span><span class="two">{{ info.dob }}</span></div>
+            <div class="details_div"><span class="one">&nbsp; J-Date &nbsp; :</span><span class="two">{{ info.doa }}</span></div>
+            <div class="details_div"><span class="one">&nbsp; Mobile &nbsp;:</span><span class="two">{{ info.mobile }}</span></div>
+            <div class="details_div"><span class="one">&nbsp; Reg No  :</span><span class="two">{{ info.formno }}</span></div>
+
+             <!-- <div class="cont_1"><p>Name:</p>
+            <p>Course :</p>
+            <p>DOB :</p>
+            <p>J-Date :</p>
+            <p>Mobile :</p>
+            <p>En.No :</p></div>
+
+            <div class="cont_2"><p>Ashish Chaudhary </p>
+            <p>DTP</p>
+            <p>25-01-2003</p>
+            <p>21-08-2023</p>
+            <p>9193840960</p>
+            <p>MCE/2023/1992</p></div>  -->
+
+        </div>
+        <hr>
+        <div class="f_details">
+            <h2>MARUTI COMPUTER'S</h2>
+            <p style="color: pink;"><span style="color: pink;">Visit Us : </span><a style="color: pink;" href="www.maruticomputer.in">www.maruticomputer.in</a></p>
+            <p>B-17, 2nd Floor, Radhe Mall, Khokhra Circle, <br> Maninagar(East), Ahmedabad-08, Gujarat</p>
+        </div>
+    </div>
+{% endfor %}
+</body>
+</html>

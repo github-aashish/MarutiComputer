@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block title %}Maruti Computer | Certification Verification{% endblock title %}
+{% block content %}
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Certificate Verification</h1>
+            {% if not education %}
+            <p class="page-subtitle">Please enter your enrollment number below</p>
+            {% endif %}
+        </div>
+        {% if not education %}
+        <div class="form-container">
+            <form id="registrationForm" method="POST" action="{% url 'showsearch' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="regNumber" class="form-label">Enrollment Number</label>
+                    <input 
+                        type="text" 
+                        id="regNumber" 
+                        name="enroll" 
+                        class="form-input" 
+                        placeholder="Enter Enrollment Number (e.g MCE/0000/0000)"
+                        required
+                    >
+                </div>
+                <button type="submit" class="submit-btn">Verify</button>
+            </form>
+        </div>
+        {% endif %}
+
+        <!-- Student Details Table -->
+        {% if education %}
+        <div class="student-details-container" style="max-width: 900px; margin: 3rem auto; padding: 0 1rem;">
+            <div class="student-card" style="background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
+                <div class="card-header" style="background: linear-gradient(135deg, #0C376A 0%, #025285 100%); padding: 2rem; text-align: center;">
+                    <h2 style="color: white; font-size: 2rem; margin: 0; font-weight: 600;">Student Details</h2>
+                </div>
+                
+                <div class="card-body" style="padding: 2rem;">
+                    <!-- Student Image -->
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <img src="{{ education.image.url }}" alt="{{ education.name }}" style="height: 200px; width: 160px; border-radius: 8px; border: 3px solid #0C376A; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
+                    </div>
+
+                    <!-- Student Information -->
+                    <table class="student-info-table" style="width: 100%; border-collapse: separate; border-spacing: 0;">
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                                <th style="padding: 1rem; text-align: left; font-weight: 600; color: #0C376A; width: 40%; font-size: 1.1rem;">Name</th>
+                                <td style="padding: 1rem; text-align: left; color: #374151; font-size: 1.1rem;">{{ education.name }}</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                                <th style="padding: 1rem; text-align: left; font-weight: 600; color: #0C376A; font-size: 1.1rem;">Enrollment No.</th>
+                                <td style="padding: 1rem; text-align: left; color: #374151; font-size: 1.1rem;">{{ education.enroll }}</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                                <th style="padding: 1rem; text-align: left; font-weight: 600; color: #0C376A; font-size: 1.1rem;">Date Of Issue</th>
+                                <td style="padding: 1rem; text-align: left; color: #374151; font-size: 1.1rem;">{{ education.date }}</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                                <th style="padding: 1rem; text-align: left; font-weight: 600; color: #0C376A; font-size: 1.1rem;">Course</th>
+                                <td style="padding: 1rem; text-align: left; color: #374151; font-size: 1.1rem;">{{ education.course }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Grade Badge -->
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 8px; text-align: center;">
+                        <p style="color: white; font-size: 1.3rem; font-weight: 600; margin: 0;">
+                            ✓ Successfully Passed with Grade: {{ education.grade }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </main>
+
+    <style>
+        /* Responsive styles for student details */
+        @media (max-width: 768px) {
+            .student-card .card-header h2 {
+                font-size: 1.5rem !important;
+            }
+            
+            .student-card img {
+                height: 160px !important;
+                width: 130px !important;
+            }
+            
+            .student-info-table th,
+            .student-info-table td {
+                font-size: 0.95rem !important;
+                padding: 0.75rem !important;
+            }
+            
+            .student-card .card-body > div:last-child p {
+                font-size: 1.1rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .student-info-table th {
+                width: 45% !important;
+            }
+            
+            .student-card img {
+                height: 140px !important;
+                width: 110px !important;
+            }
+        }
+    </style>
+{% endblock content %}
+
+{% block scripts %}
+    <script>
+        // Initialize AOS if needed
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    offset: 100
+                });
+            }
+        });
+    </script>
+{% endblock scripts %}

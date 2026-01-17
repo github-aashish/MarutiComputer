@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald&effect=3d-float">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <link rel="icon" href="{% static 'images/m-logo.png' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <style>
+    .main-container{
+        display: flex;
+        flex-direction: row;
+    }
+    .item-container{
+        text-align: center;
+        flex: 50%;
+    }
+    .item-container iframe{
+        margin: 2vw;
+        display: block;
+        width: 48vw;
+        height: 80vh;
+    }
+    .item-container p{
+        font-size: 2vw;
+        margin:1vw;
+        padding: 1vw;
+    }
+    @media (max-width: 800px) {
+    .main-container{
+        flex-direction: column;
+    }
+    .item-container iframe{
+        margin: 0;
+        width: 98vw;
+    }
+    }
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: black;}
+
+.upper{
+display:flex;
+position: sticky;
+justify-content:space-between;
+align-items:center;
+}
+.upper-text{
+font-size:2.6rem;
+font-weight:bold;
+width:55%;
+text-align:center;
+color:#025285;
+font-family:oswald;
+}
+.upper-1{
+width:20%;
+}
+.upper-2{
+width:25%;
+text-align:right;
+}
+.up{
+height:2rem;
+width:2rem;
+}
+
+@media (max-width: 1200px) {
+          .upper{
+            flex-direction:column;
+          }  
+          .upper-1{
+          display:none;
+           }
+           .upper-text{
+           font-size:1.5rem;
+           width:100%;
+           } 
+           .upper-2{
+           width:100%;
+           text-align:center;
+          }  
+           .up{
+                 height:1.7rem;
+                 width:1.7rem;
+           }
+           .up-1{
+             display:none;
+            }
+        }
+
+</style>
+    <body>
+<!--#00bfff, #00ffd5-->
+<!--header-->
+<div class="upper" style="background-image:linear-gradient(#00bfff, #0C376A);"> 
+<div class="upper-1"><img src="{% static 'images/M-logo-2.png' %}" height="75" width="200"> </div>
+<div class="upper-text" style="color:#025285 ; text-shadow: 3px 3px 6px #FFFFFF;">MARUTI COMPUTER EDUCATION </div><div class="upper-2"><img class="up-1" src="{% static 'images/aa1.png' %}" height="60" width="95"> 
+<a href="https://www.facebook.com/sanjay.chaudhar.10" target="_blank"><img class="up" src="{% static 'images/F1.png' %}" height="25" width="25"></a> 
+<a href="https://www.instagram.com/sanjay.chaudhar.10/"><img class="up" src="{% static 'images/F2.png' %}" height="25" width="25"></a>
+<a href="https://api.whatsapp.com/send?phone=919998939925" target="_blank"><img class="up" src="{% static 'images/F3.png' %}" height="25" width="25"></a>
+<a href="tel:9998939925" class="text-white" style="text-decoration: none;"><img class="up" src="{% static 'images/F4.png' %}" height="25" width="25"></a>
+<a href="mailto:sanjay020477@gmail.com"><img class="up" src="{% static 'images/F5.png' %}" height="25" width="25"></a></div>
+</div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark " style="background:#0C376A">
+        <div class="container-fluid">
+          <!--<a class="navbar-brand" href="#">Navbar</a>-->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link navbar-brand" aria-current="page" href="{% url 'index' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbar-brand" href="{% url 'courses' %}">Courses</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbar-brand" href="{% url 'about' %}">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active navbar-brand" href="{% url 'contactus' %}">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbar-brand" href="showsearch">Certi-Verify</a>
+              </li>
+
+<div class="dropdown nav-item" style="background-color:#0C376A;border:none;outline:none;">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" style="background-color:#0C376A;border:none;outline:none;">
+            Student
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="showid">Student Id-card</a>
+            <a class="dropdown-item" href="https://drive.google.com/file/d/1uicSzNh63wLom1B0Y38XKyE7MGfvS4PZ/view" target="_blank">CCC Practical Book</a>
+            <a class="dropdown-item" href="https://drive.google.com/file/d/1MyM2H6GezmFWakl7ukwwfcW1HfHAdxuS/view?usp=drive_link" target="_blank">Tally Prime Book</a>
+		<a class="dropdown-item" href="https://drive.google.com/file/d/1nTCW71kkS7TKA4QHQ8bd0WOP8-Aabg7X/view?usp=drive_link" target="_blank">CCC Theory Exam Book</a>
+	    {% if request.session.logname == 'Exam' or request.session.logname == 'sanjay' %}
+		<a class="dropdown-item" href="https://docs.google.com/forms/d/e/1FAIpQLSdJ8hDL48ybIkqxkl2uB6qqzqYiv0AL81p7RFrIA_P6Q7E6Sw/viewform" target="_blank">CCC Exam(Eng)</a>
+		<a class="dropdown-item" href="https://docs.google.com/forms/d/e/1FAIpQLSdki6sXphmXZA3WaRku5JqQV4jBF4w1wwMxWMWSyODSohcA-g/viewform" target="_blank">CCC Exam(Guj)</a>
+		<a class="dropdown-item" href="#" target="_blank">Tally Exam</a>
+	    {% endif %}
+        </div>
+    </div>
+             
+              {% if request.session.logname == 'sanjay' %}
+			
+			<div class="dropdown nav-item" style="background-color:#0C376A;border:none;outline:none;">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" style="background-color:#0C376A;border:none;outline:none;">
+            Admin Section
+        	</button>
+        	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		<a class="dropdown-item" href="all-students">All-Students</a>
+            	<a class="dropdown-item" href="{% url 'admission' %}">Admission</a>
+            	<a class="dropdown-item" href="{% url 'feestatus' %}">Fees</a>
+            	<a class="dropdown-item" href="showcertificate">Certificate</a>
+		<a class="dropdown-item" href="generate-certificate">Generate Certificate</a>
+        	</div>
+    		</div>
+                {% endif %}
+              <li class="nav-item">
+                <a class="nav-link navbar-brand" href="payment">Payment</a>
+              </li>
+            </ul>
+              {% if request.session.logname %}
+              <button type="button" class="btn btn-info" style="background-color:#FFBA0D;border:none;"><a href="logout" style="text-decoration:none;color:black;">Logout</a></button>
+              {% else %}
+            <button type="button" class="btn btn-info" style="background-color:#FFBA0D;border:none;"><a href="login" style="text-decoration:none;color:black;">Login</a></button>
+              {% endif %}
+
+            <!--<form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>-->
+          </div>
+        </div>
+      </nav>
+      <!--header-->
+
+<h1 style="text-align:center;background-color:#FFBA0D;color:white;"> Contact Us</h1>
+
+    <!--Body-->
+    <div class="main-container">
+        <div class="item-container"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14690.305352856492!2d72.6189194!3d23.0026016!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e86745747955d%3A0xb72bf1ff8f45f685!2sMaruti%20Computer%20Education!5e0!3m2!1sen!2sin!4v1691917383923!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+        <div class="item-container"><!--<p style="font-size:3vw;text-decoration:underline;">Contact Us</p>--><p><span class="material-symbols-outlined" style="font-size: 50px;display:block;color:blue;font-weight:bold;">location_on</span>B-17,
+        2nd Floor Radhe Mall Khokhara Circle Maninagar(East), Ahmedabad-380008, Gujarat, India</p><p><span class="material-symbols-outlined" style="font-size: 50px;display:block;color:green;font-weight:bold;">
+                call
+                </span>9998939925</p>
+                <p><span class="material-symbols-outlined" style="font-size: 50px;display:block;color:red;font-weight:bold;">
+                    mail
+                    </span>sanjay020477@gmail.com</p>
+        </div>
+    </div>
+     <!--Body-->
+
+    <!--footer-->
+       <footer class="text-white text-center text-lg-start" style="background:#0C376A">
+        <!-- Grid container -->
+        <div class="container p-4">
+          <!--Grid row-->
+          <div class="row">
+            <!--Grid column-->
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+              <h5 class="text-uppercase" style="color: black;">Discover Tech Excellence: Unleash Your Digital Potential</h5>
+
+              <p style="color: white;font-weight:500;">
+                Empower yourself with cutting-edge skills in coding, software, and hardware. Our expert-led computer classes provide hands-on learning for all levels. Ignite your passion for technology and chart a successful course in the digital landscape. Join us today and embark on your journey to technical mastery.
+              </p>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+              <h5 class="text-uppercase" style="color: black;">Quick Links</h5>
+
+              <ul class="list-unstyled mb-0">
+                <li>
+                  <a href="{% url 'index' %}" class="text-white">Home</a>
+                </li>
+                <li>
+                  <a href="{% url 'courses' %}" class="text-white">Courses</a>
+                </li>
+                <li>
+                  <a href="showsearch" class="text-white">Student Verification</a>
+                </li>
+                <li>
+                  <a href="{% url 'about' %}" class="text-white">About Us</a>
+                </li>
+              </ul>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+              <h5 class="text-uppercase mb-0" style="color: black;">Contact Us</h5>
+
+              <ul class="list-unstyled" style="margin-top:10px;">
+                <li>
+                  <a href="tel:9998939925" class="text-white" style="text-decoration: none;"><i class="fa fa-phone" aria-hidden="true" style="font-size:20px;"></i>&nbsp;&nbsp;&nbsp;<span style="text-decoration:none;font-weight:bold;">9998939925</span></a>
+                </li>
+                <li>
+                  <a href="mailto:sanjay020477@gmail.com" class="text-white" style="text-decoration: none;"><i class="fa fa-envelope-o" aria-hidden="true" style="font-size:20px;"></i>&nbsp;&nbsp;&nbsp;<span style="text-decoration:none;font-weight:bold;">sanjay020477@gmail.com</span></a>
+                </li>
+
+              </ul>
+		<img src="{% static 'images/M-logo-2.png' %}" height="80" width="220">
+            </div>
+            <!--Grid column-->
+          </div>
+          <!--Grid row-->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+          © 2020 Copyright:
+          <a class="text-white" href="{% url 'index' %}">maruticomputer.in</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+      <!--footer-->
+    </body>
+</html>

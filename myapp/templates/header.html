@@ -1,0 +1,79 @@
+{% load static %}
+<nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                {% comment %} <i class="fas fa-laptop-code"></i> Maruti Computer {% endcomment %}
+                <img src="{% static 'images/Newlogo.jpg' %}" alt="Maruti Logo" width="180" height="75">
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{% url 'index' %}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#courses" class="nav-link">Courses</a>
+                    <div class="dropdown">
+                        <a href="{% url 'course_detail' 'CCC' %}">CCC | Ms-Office</a>
+                        <a href="{% url 'course_detail' 'Tally' %}">Tally | Tally Prime</a>
+                        <a href="#">DTP</a>
+                        <a href="{% url 'course_detail' 'DCA' %}">DCA</a>
+                        <a href="{% url 'codding' %}">Website Development</a>
+                        <a href="{% url 'courses' %}">All Courses</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="showsearch" class="nav-link">Certi-Verify</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#student" class="nav-link">Student</a>
+                    <div class="dropdown">
+                        <a href="showid">Student Id Card</a>
+                        <a href="https://drive.google.com/file/d/1uicSzNh63wLom1B0Y38XKyE7MGfvS4PZ/view" target="_blank">CCC Practical Book</a>
+                        <a href="https://drive.google.com/file/d/1MyM2H6GezmFWakl7ukwwfcW1HfHAdxuS/view?usp=drive_link" target="_blank">Tally Prime Book</a>
+                        <a href="https://drive.google.com/file/d/1QYQ8qX_j1Rvkv6kGrRZxAFlls1Mcwnz_/view" target="_blank">CCC Theory Exam Book</a>
+                        {% if user.is_authenticated %}
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdJ8hDL48ybIkqxkl2uB6qqzqYiv0AL81p7RFrIA_P6Q7E6Sw/viewform">CCC Exam(Eng)</a>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdki6sXphmXZA3WaRku5JqQV4jBF4w1wwMxWMWSyODSohcA-g/viewform">CCC Exam(Guj)</a>
+                        <a href="#">Tally Exam</a>
+                        {% endif %}
+                    </div>
+                </li>
+                {% if user.is_authenticated and user.is_superuser %}
+                <li class="nav-item">
+                    <a href="#admission" class="nav-link">Admin</a>
+                    <div class="dropdown">
+                        <a href="all-students">All Students</a>
+                        <a href="{% url 'admission' %}">New Admission</a>
+                        <a href="{% url 'feestatus' %}">Fee Details</a>
+                        <a href="generate-certificate">Generate Certificate</a>
+                        <a href="showcertificate">Print Certificate</a>
+                    </div>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a href="{% url 'payment' %}" class="nav-link">Payment</a>
+                </li>
+            </ul>
+
+            <div class="mobile-navigation">
+                <div class="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="auth-drop">
+                    <button class="drop-btn" onclick="toggleAuth()">
+                        <i class="fa-solid fa-user"></i>
+                    </button>
+                    <div id="auth-drop" class="dropdown-content">
+                        {% if user.is_authenticated %}
+                            <a href="logout">Logout</a>
+                        {% else %}
+                            <a href={% url 'session_login' %}>Login</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </nav>

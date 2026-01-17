@@ -1,0 +1,363 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filter %}
+{% block title %}Payment | Maruti Computer{% endblock title %}
+{% block styles %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .payment-container {
+            width: 450px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Decorative strips */
+        .strip-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: linear-gradient(90deg, #87CEEB, #4682B4, #87CEEB);
+        }
+
+        .strip-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: linear-gradient(90deg, #4682B4, #87CEEB, #4682B4);
+        }
+
+        /* Header */
+        .payment-header {
+            background: linear-gradient(135deg, #87CEEB, #4682B4);
+            padding: 25px 20px 20px;
+            text-align: center;
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .institute-logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .institute-logo i {
+            font-size: 28px;
+            color: #87CEEB;
+        }
+
+        .institute-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-title {
+            font-size: 16px;
+            color: rgba(85, 85, 85, 0.9);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Payment Content */
+        .payment-content {
+            padding: 30px;
+            margin-bottom: 100px;
+        }
+
+        .section-heading {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* QR Code Section */
+        .qr-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 25px;
+            border: 3px solid #87CEEB;
+        }
+
+        .qr-container {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            border-radius: 10px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #87CEEB;
+        }
+
+        .qr-placeholder{
+            margin: 0;
+            padding: 0
+        }
+
+        .qr-placeholder img{
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+        }
+
+        .qr-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            background: rgba(135, 206, 235, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(135, 206, 235, 0.3);
+        }
+
+        .methods-title {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .payment-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .payment-icon {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 2px solid #f0f0f0;
+        }
+
+        .payment-icon i {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .payment-icon .label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Google Pay */
+        .gpay i {
+            color: #4285F4;
+        }
+
+        /* PhonePe */
+        .phonepe i {
+            color: #5f259f;
+        }
+
+        /* Paytm */
+        .paytm i {
+            color: #00BAF2;
+        }
+
+        /* Payment Info */
+        .payment-info {
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 13px;
+            color: #000;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .payment-footer {
+            background: linear-gradient(135deg, #000000, #333333);
+            padding: 20px;
+            text-align: center;
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+        }
+
+        .footer-heading {
+            font-size: 16px;
+            font-weight: bold;
+            color: #87CEEB;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .footer-address {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .payment-container {
+                width: 95%;
+            }
+
+            .qr-container {
+                width: 200px;
+                height: 200px;
+            }
+
+            .payment-icons {
+                gap: 15px;
+            }
+
+            .payment-icon {
+                width: 70px;
+                height: 70px;
+            }
+
+            .payment-icon i {
+                font-size: 28px;
+            }
+        }
+    </style>
+{% endblock styles %}
+{% block content %}
+<main class="main-content">
+
+    <div class="payment-container">
+        <!-- Decorative Strips -->
+        <div class="strip-top"></div>
+        <div class="strip-bottom"></div>
+
+        <!-- Header -->
+        <div class="payment-header">
+            <div class="institute-logo">
+                <i class="fas fa-laptop-code"></i>
+            </div>
+            <div class="institute-name">MARUTI COMPUTER</div>
+            <div class="page-title">Payment Gateway</div>
+        </div>
+        
+        <!-- Payment Content -->
+        <div class="payment-content">
+            <h2 class="section-heading">Scan & Pay</h2>
+            
+            <!-- QR Code Section -->
+            <div class="qr-section">
+                <div class="qr-container">
+                    <div class="qr-placeholder">
+                        <p><img id="payment-qr" src="{% static 'images/payment.jpeg' %}" alt="Payment Qr"></p>
+                    </div>
+                </div>
+                <p class="qr-text">Scan QR Code to Pay</p>
+            </div>
+            
+            <!-- Payment Methods -->
+            <div class="payment-methods">
+                <p class="methods-title">Accepted Payment Methods</p>
+                <div class="payment-icons">
+                    <div class="payment-icon gpay">
+                        <i class="fab fa-google-pay"></i>
+                        <span class="label">Google Pay</span>
+                    </div>
+                    <div class="payment-icon phonepe">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span class="label">PhonePe</span>
+                    </div>
+                    <div class="payment-icon paytm">
+                        <i class="fas fa-wallet"></i>
+                        <span class="label">Paytm</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Info -->
+            <div class="payment-info">
+                <div class="info-row">
+                    <span class="info-label">UPI ID:</span>
+                    <span class="info-value">9998939925@okbizaxis</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Account Name:</span>
+                    <span class="info-value">Maruti Computer Education</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Phone:</span>
+                    <span class="info-value">+91 99989 39925</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="payment-footer">
+            <div class="footer-heading">MARUTI COMPUTER CLASSES</div>
+            <div class="footer-address">
+                B-17 2nd floor, Radhey Mall - khokhra<br>
+                Ahmedabad, Gujarat - 380001<br>
+                Ph: +91 99989 39925 | www.maruticomputer.in
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

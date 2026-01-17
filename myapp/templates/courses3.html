@@ -1,0 +1,1046 @@
+{% extends 'base.html' %}
+{% block title %}Courses | Maruti Computer{% endblock title %}
+{% block styles %}
+<style>
+/* Table Container */
+.table-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+/* Search and Controls */
+.table-controls {
+    padding: 2rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.search-container {
+    position: relative;
+    flex: 1;
+    max-width: 400px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 3rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+.pagination-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pagination-selector select {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.pagination-selector select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* Table Styles */
+.courses-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.courses-table th,
+.courses-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.courses-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: var(--secondary-color);
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+
+.courses-table th:hover {
+    background: #e9ecef;
+}
+
+.courses-table th.sortable::after {
+    content: '\f0dc';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.5;
+    font-size: 0.8rem;
+}
+
+.courses-table th.sort-asc::after {
+    content: '\f0de';
+    opacity: 1;
+    color: var(--primary-color);
+}
+
+.courses-table th.sort-desc::after {
+    content: '\f0dd';
+    opacity: 1;
+    color: var(--primary-color);
+}
+
+.courses-table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.courses-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.courses-table tbody tr:hover {
+    background-color: #e3f2fd !important;
+    transform: translateX(5px);
+}
+
+.course-name {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.course-category {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.course-duration {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.course-fee {
+    font-weight: 600;
+    color: #dc3545;
+}
+
+.course-rating {
+    color: #ffd700;
+}
+
+.course-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-upcoming {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-completed {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+/* Pagination */
+.pagination-container {
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
+}
+
+.pagination-info {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.pagination {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.page-btn {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #dee2e6;
+    background: white;
+    color: var(--secondary-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    min-width: 35px;
+    text-align: center;
+}
+
+.page-btn:hover:not(.disabled) {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.page-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.page-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Loading Animation */
+.loading {
+    text-align: center;
+    padding: 3rem;
+    color: var(--primary-color);
+}
+
+.spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Row Animation */
+.fade-in-row {
+    opacity: 0;
+    animation: fadeInRow 0.5s ease forwards;
+}
+
+@keyframes fadeInRow {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .table-controls {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1rem;
+    }
+
+    .search-container {
+        max-width: none;
+    }
+
+    .courses-table {
+        font-size: 0.9rem;
+        min-width: 600px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .courses-table th,
+    .courses-table td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .pagination-container {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+
+    .page-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
+        min-width: 30px;
+    }
+}
+</style>
+{% endblock styles %}
+{% block content %}
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Courses</h1>
+            <p class="page-subtitle">Explore our comprehensive range of industry-focused courses designed to boost your
+                career</p>
+        </div>
+
+        <div class="table-container">
+            <!-- Search and Controls -->
+            <div class="table-controls">
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search courses...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                <div class="pagination-selector">
+                    <label for="recordsPerPage">Show:</label>
+                    <select id="recordsPerPage">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span>entries</span>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading courses...</p>
+            </div>
+
+            <!-- Courses Table -->
+            <div id="tableWrapper">
+                <table class="courses-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-column="name">Course Name</th>
+                            <th class="sortable" data-column="category">Category</th>
+                            <th class="sortable" data-column="duration">Duration</th>
+                            <th class="sortable" data-column="fee">Fee</th>
+                            <th class="sortable" data-column="rating">Rating</th>
+                            <th class="sortable" data-column="status">Status</th>
+                            <th class="sortable" data-column="enrollment">Enrolled</th>
+                        </tr>
+                    </thead>
+                    <tbody id="coursesTableBody">
+                        <!-- Table content will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div class="pagination-info" id="paginationInfo">
+                    Showing 1 to 10 of 50 entries
+                </div>
+                <div class="pagination" id="paginationControls">
+                    <!-- Pagination buttons will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
+    <!-- Scripts -->
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // App State
+        const AppState = {
+            coursesData: [
+                {
+                    name: "Full Stack Web Development",
+                    category: "Web Development",
+                    duration: "6 Months",
+                    fee: "₹25,000",
+                    rating: 4.9,
+                    status: "Active",
+                    enrollment: 150
+                },
+                {
+                    name: "Mobile App Development",
+                    category: "Mobile Development",
+                    duration: "4 Months",
+                    fee: "₹20,000",
+                    rating: 4.8,
+                    status: "Active",
+                    enrollment: 120
+                },
+                {
+                    name: "Digital Marketing Master",
+                    category: "Digital Marketing",
+                    duration: "3 Months",
+                    fee: "₹15,000",
+                    rating: 4.7,
+                    status: "Active",
+                    enrollment: 200
+                },
+                {
+                    name: "Graphic Design Pro",
+                    category: "Design",
+                    duration: "4 Months",
+                    fee: "₹18,000",
+                    rating: 4.6,
+                    status: "Upcoming",
+                    enrollment: 80
+                },
+                {
+                    name: "Data Science & Analytics",
+                    category: "Data Science",
+                    duration: "8 Months",
+                    fee: "₹35,000",
+                    rating: 4.9,
+                    status: "Active",
+                    enrollment: 90
+                },
+                {
+                    name: "Python Programming",
+                    category: "Programming",
+                    duration: "3 Months",
+                    fee: "₹12,000",
+                    rating: 4.8,
+                    status: "Active",
+                    enrollment: 180
+                },
+                {
+                    name: "Cyber Security Essentials",
+                    category: "Security",
+                    duration: "5 Months",
+                    fee: "₹22,000",
+                    rating: 4.7,
+                    status: "Active",
+                    enrollment: 70
+                },
+                {
+                    name: "Cloud Computing AWS",
+                    category: "Cloud",
+                    duration: "4 Months",
+                    fee: "₹28,000",
+                    rating: 4.8,
+                    status: "Upcoming",
+                    enrollment: 60
+                },
+                {
+                    name: "AI & Machine Learning",
+                    category: "AI/ML",
+                    duration: "10 Months",
+                    fee: "₹45,000",
+                    rating: 4.9,
+                    status: "Active",
+                    enrollment: 50
+                },
+                {
+                    name: "UI/UX Design",
+                    category: "Design",
+                    duration: "3 Months",
+                    fee: "₹16,000",
+                    rating: 4.6,
+                    status: "Active",
+                    enrollment: 100
+                },
+                {
+                    name: "DevOps Engineering",
+                    category: "DevOps",
+                    duration: "6 Months",
+                    fee: "₹30,000",
+                    rating: 4.8,
+                    status: "Upcoming",
+                    enrollment: 45
+                },
+                {
+                    name: "Blockchain Development",
+                    category: "Blockchain",
+                    duration: "5 Months",
+                    fee: "₹32,000",
+                    rating: 4.7,
+                    status: "Active",
+                    enrollment: 35
+                },
+                {
+                    name: "Java Enterprise Development",
+                    category: "Programming",
+                    duration: "4 Months",
+                    fee: "₹18,000",
+                    rating: 4.8,
+                    status: "Active",
+                    enrollment: 140
+                },
+                {
+                    name: "React Native Development",
+                    category: "Mobile Development",
+                    duration: "3 Months",
+                    fee: "₹20,000",
+                    rating: 4.7,
+                    status: "Active",
+                    enrollment: 85
+                },
+                {
+                    name: "WordPress Development",
+                    category: "Web Development",
+                    duration: "2 Months",
+                    fee: "₹10,000",
+                    rating: 4.5,
+                    status: "Completed",
+                    enrollment: 250
+                }
+            ],
+            currentData: [],
+            currentPage: 1,
+            recordsPerPage: 10,
+            sortColumn: '',
+            sortDirection: 'asc'
+        };
+
+        // Initialize current data
+        AppState.currentData = [...AppState.coursesData];
+
+        // Utility Functions
+        const Utils = {
+            debounce: function (func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            },
+
+            escapeHtml: function (unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            },
+
+            formatCurrency: function (amount) {
+                return amount.toString().replace(/[₹,]/g, '');
+            },
+
+            parseNumber: function (value, type = 'string') {
+                if (type === 'fee') {
+                    return parseInt(this.formatCurrency(value)) || 0;
+                } else if (type === 'number') {
+                    return parseFloat(value) || 0;
+                } else if (type === 'duration') {
+                    return parseInt(value) || 0;
+                }
+                return value.toString().toLowerCase();
+            }
+        };
+
+        // Table Management
+        const TableManager = {
+            init: function () {
+                this.bindEvents();
+                this.render();
+            },
+
+            bindEvents: function () {
+                // Search
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.addEventListener('input', Utils.debounce((e) => {
+                        this.handleSearch(e.target.value);
+                    }, 300));
+                }
+
+                // Records per page
+                const recordsSelect = document.getElementById('recordsPerPage');
+                if (recordsSelect) {
+                    recordsSelect.addEventListener('change', (e) => {
+                        this.handleRecordsPerPageChange(parseInt(e.target.value));
+                    });
+                }
+
+                // Sorting
+                document.querySelectorAll('.sortable').forEach(header => {
+                    header.addEventListener('click', () => {
+                        this.handleSort(header.dataset.column);
+                    });
+                });
+
+                // Navbar scroll effect
+                window.addEventListener('scroll', () => {
+                    const navbar = document.querySelector('.navbar');
+                    if (window.scrollY > 100) {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                    } else {
+                        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                        navbar.style.boxShadow = 'none';
+                    }
+                });
+            },
+
+            handleSearch: function (searchTerm) {
+                try {
+                    const term = searchTerm.toLowerCase().trim();
+                    AppState.currentData = AppState.coursesData.filter(course =>
+                        course.name.toLowerCase().includes(term) ||
+                        course.category.toLowerCase().includes(term) ||
+                        course.status.toLowerCase().includes(term)
+                    );
+                    AppState.currentPage = 1;
+                    this.render();
+                } catch (error) {
+                    console.error('Sort error:', error);
+                    this.showError('Sorting failed. Please try again.');
+                }
+            },
+
+            sortData: function () {
+                try {
+                    AppState.currentData.sort((a, b) => {
+                        let aVal = a[AppState.sortColumn];
+                        let bVal = b[AppState.sortColumn];
+
+                        // Handle different data types
+                        if (AppState.sortColumn === 'fee') {
+                            aVal = Utils.parseNumber(aVal, 'fee');
+                            bVal = Utils.parseNumber(bVal, 'fee');
+                        } else if (AppState.sortColumn === 'rating' || AppState.sortColumn === 'enrollment') {
+                            aVal = Utils.parseNumber(aVal, 'number');
+                            bVal = Utils.parseNumber(bVal, 'number');
+                        } else if (AppState.sortColumn === 'duration') {
+                            aVal = Utils.parseNumber(aVal, 'duration');
+                            bVal = Utils.parseNumber(bVal, 'duration');
+                        } else {
+                            aVal = Utils.parseNumber(aVal);
+                            bVal = Utils.parseNumber(bVal);
+                        }
+
+                        if (AppState.sortDirection === 'asc') {
+                            return aVal > bVal ? 1 : -1;
+                        } else {
+                            return aVal < bVal ? 1 : -1;
+                        }
+                    });
+                } catch (error) {
+                    console.error('Sort data error:', error);
+                    this.showError('Data sorting failed.');
+                }
+            },
+
+            render: function () {
+                this.renderTable();
+                this.renderPagination();
+            },
+
+            renderTable: function () {
+                try {
+                    const tbody = document.getElementById('coursesTableBody');
+                    if (!tbody) {
+                        console.error('Table body not found');
+                        return;
+                    }
+
+                    const start = (AppState.currentPage - 1) * AppState.recordsPerPage;
+                    const end = start + AppState.recordsPerPage;
+                    const pageData = AppState.currentData.slice(start, end);
+
+                    tbody.innerHTML = '';
+
+                    if (pageData.length === 0) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+                                    <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                                    <p>No courses found matching your search criteria.</p>
+                                </td>
+                            </tr>
+                        `;
+                        return;
+                    }
+
+                    pageData.forEach((course, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td class="course-name">${Utils.escapeHtml(course.name)}</td>
+                            <td><span class="course-category">${Utils.escapeHtml(course.category)}</span></td>
+                            <td class="course-duration">${Utils.escapeHtml(course.duration)}</td>
+                            <td class="course-fee">${Utils.escapeHtml(course.fee)}</td>
+                            <td class="course-rating">
+                                ${'★'.repeat(Math.floor(course.rating))}${'☆'.repeat(5 - Math.floor(course.rating))} ${course.rating}
+                            </td>
+                            <td>
+                                <span class="course-status status-${course.status.toLowerCase().replace(' ', '-')}">
+                                    ${Utils.escapeHtml(course.status)}
+                                </span>
+                            </td>
+                            <td>${course.enrollment} students</td>
+                        `;
+
+                        // Add animation delay for each row
+                        row.style.animationDelay = `${index * 0.05}s`;
+                        row.classList.add('fade-in-row');
+
+                        tbody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('Table render error:', error);
+                    this.showError('Failed to display table data.');
+                }
+            },
+
+            renderPagination: function () {
+                try {
+                    const totalRecords = AppState.currentData.length;
+                    const totalPages = Math.ceil(totalRecords / AppState.recordsPerPage);
+                    const start = (AppState.currentPage - 1) * AppState.recordsPerPage + 1;
+                    const end = Math.min(AppState.currentPage * AppState.recordsPerPage, totalRecords);
+
+                    // Update pagination info
+                    const paginationInfo = document.getElementById('paginationInfo');
+                    if (paginationInfo) {
+                        paginationInfo.textContent = totalRecords === 0 ?
+                            'Showing 0 to 0 of 0 entries' :
+                            `Showing ${start} to ${end} of ${totalRecords} entries`;
+                    }
+
+                    // Update pagination controls
+                    const paginationControls = document.getElementById('paginationControls');
+                    if (!paginationControls) return;
+
+                    paginationControls.innerHTML = '';
+
+                    if (totalPages <= 1) return;
+
+                    // Previous button
+                    const prevBtn = this.createButton('<i class="fas fa-chevron-left"></i>', AppState.currentPage === 1, () => {
+                        if (AppState.currentPage > 1) {
+                            AppState.currentPage--;
+                            this.render();
+                        }
+                    });
+                    paginationControls.appendChild(prevBtn);
+
+                    // Page numbers
+                    const maxVisiblePages = 5;
+                    let startPage = Math.max(1, AppState.currentPage - Math.floor(maxVisiblePages / 2));
+                    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                    if (endPage - startPage + 1 < maxVisiblePages) {
+                        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                    }
+
+                    // First page and ellipsis
+                    if (startPage > 1) {
+                        const firstBtn = this.createPageButton(1);
+                        paginationControls.appendChild(firstBtn);
+
+                        if (startPage > 2) {
+                            const ellipsis = document.createElement('span');
+                            ellipsis.textContent = '...';
+                            ellipsis.className = 'page-btn disabled';
+                            paginationControls.appendChild(ellipsis);
+                        }
+                    }
+
+                    // Page number buttons
+                    for (let i = startPage; i <= endPage; i++) {
+                        const pageBtn = this.createPageButton(i);
+                        paginationControls.appendChild(pageBtn);
+                    }
+
+                    // Last page and ellipsis
+                    if (endPage < totalPages) {
+                        if (endPage < totalPages - 1) {
+                            const ellipsis = document.createElement('span');
+                            ellipsis.textContent = '...';
+                            ellipsis.className = 'page-btn disabled';
+                            paginationControls.appendChild(ellipsis);
+                        }
+
+                        const lastBtn = this.createPageButton(totalPages);
+                        paginationControls.appendChild(lastBtn);
+                    }
+
+                    // Next button
+                    const nextBtn = this.createButton('<i class="fas fa-chevron-right"></i>', AppState.currentPage === totalPages, () => {
+                        if (AppState.currentPage < totalPages) {
+                            AppState.currentPage++;
+                            this.render();
+                        }
+                    });
+                    paginationControls.appendChild(nextBtn);
+                } catch (error) {
+                    console.error('Pagination render error:', error);
+                    this.showError('Failed to display pagination.');
+                }
+            },
+
+            createButton: function (content, disabled, onClick) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${disabled ? 'disabled' : ''}`;
+                btn.innerHTML = content;
+                btn.disabled = disabled;
+                if (!disabled) {
+                    btn.addEventListener('click', onClick);
+                }
+                return btn;
+            },
+
+            createPageButton: function (pageNum) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${pageNum === AppState.currentPage ? 'active' : ''}`;
+                btn.textContent = pageNum;
+                btn.addEventListener('click', () => {
+                    AppState.currentPage = pageNum;
+                    this.render();
+                });
+                return btn;
+            },
+
+            showLoading: function () {
+                const loading = document.getElementById('loading');
+                const tableWrapper = document.getElementById('tableWrapper');
+
+                if (loading) loading.style.display = 'block';
+                if (tableWrapper) tableWrapper.style.display = 'none';
+            },
+
+            hideLoading: function () {
+                const loading = document.getElementById('loading');
+                const tableWrapper = document.getElementById('tableWrapper');
+
+                if (loading) loading.style.display = 'none';
+                if (tableWrapper) tableWrapper.style.display = 'block';
+            },
+
+            showError: function (message) {
+                // Remove existing error messages
+                const existingErrors = document.querySelectorAll('.error-message');
+                existingErrors.forEach(error => error.remove());
+
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.innerHTML = `
+                    <div style="
+                        position: fixed;
+                        top: 100px;
+                        right: 20px;
+                        background: #f8d7da;
+                        color: #721c24;
+                        padding: 1rem;
+                        border-radius: 8px;
+                        border: 1px solid #f5c6cb;
+                        z-index: 1001;
+                        max-width: 300px;
+                        box-shadow: var(--shadow);
+                    ">
+                        <strong>Error</strong>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">
+                            ${Utils.escapeHtml(message)}
+                        </p>
+                        <button onclick="this.parentElement.parentElement.remove()" style="
+                            background: none;
+                            border: none;
+                            color: #721c24;
+                            font-size: 1.2rem;
+                            position: absolute;
+                            top: 0.5rem;
+                            right: 0.5rem;
+                            cursor: pointer;
+                        ">&times;</button>
+                    </div>
+                `;
+                document.body.appendChild(errorDiv);
+
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    if (errorDiv.parentElement) {
+                        errorDiv.remove();
+                    }
+                }, 5000);
+            }
+        };
+
+        // Initialize AOS with error handling
+        function initAOS() {
+            try {
+                if (typeof AOS !== 'undefined') {
+                    AOS.init({
+                        duration: 1000,
+                        once: true,
+                        offset: 100
+                    });
+                }
+            } catch (error) {
+                console.warn('AOS initialization failed:', error);
+            }
+        }
+
+        // Global error handler
+        window.addEventListener('error', (e) => {
+            console.error('JavaScript Error:', e.error);
+            // Don't show error message for external scripts
+            if (e.filename && !e.filename.includes(window.location.hostname)) {
+                return;
+            }
+            TableManager.showError('An unexpected error occurred. Please refresh the page.');
+        });
+
+        // Initialize everything when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                initAOS();
+
+                // Show loading initially
+                TableManager.showLoading();
+
+                // Simulate initial loading delay
+                setTimeout(() => {
+                    TableManager.hideLoading();
+                    TableManager.init();
+                }, 500);
+
+                // Add keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    try {
+                        if (e.ctrlKey || e.metaKey) {
+                            switch (e.key) {
+                                case 'f':
+                                    e.preventDefault();
+                                    const searchInput = document.getElementById('searchInput');
+                                    if (searchInput) searchInput.focus();
+                                    break;
+                                case 'r':
+                                    e.preventDefault();
+                                    location.reload();
+                                    break;
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Keyboard shortcut error:', error);
+                    }
+                });
+
+                // Add refresh button
+                const refreshBtn = document.createElement('div');
+                refreshBtn.innerHTML = `
+                    <div style="position: fixed; bottom: 2rem; right: 2rem; z-index: 1000;">
+                        <button onclick="location.reload()" style="
+                            background: var(--gradient);
+                            color: white;
+                            border: none;
+                            border-radius: 50%;
+                            width: 56px;
+                            height: 56px;
+                            font-size: 1.5rem;
+                            cursor: pointer;
+                            box-shadow: var(--shadow);
+                            transition: all 0.3s ease;
+                        " 
+                        onmouseover="this.style.transform='scale(1.1)'"
+                        onmouseout="this.style.transform='scale(1)'"
+                        title="Refresh Table (Ctrl+R)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(refreshBtn);
+
+            } catch (error) {
+                console.error('Initialization error:', error);
+                // Fallback: try to render basic table
+                setTimeout(() => {
+                    try {
+                        const tbody = document.getElementById('coursesTableBody');
+                        if (tbody) {
+                            tbody.innerHTML = `
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+                                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem; color: #dc3545;"></i>
+                                        <p>Unable to load course data. Please refresh the page.</p>
+                                        <button onclick="location.reload()" style="
+                                            background: var(--primary-color);
+                                            color: white;
+                                            border: none;
+                                            padding: 0.5rem 1rem;
+                                            border-radius: 4px;
+                                            cursor: pointer;
+                                            margin-top: 1rem;
+                                        ">Refresh Page</button>
+                                    </td>
+                                </tr>
+                            `;
+                        }
+                    } catch (fallbackError) {
+                        console.error('Fallback render failed:', fallbackError);
+                    }
+                }, 1000);
+            }
+        });
+
+        // Export for debugging
+        window.TableManager = TableManager;
+        window.AppState = AppState;
+    </script>
+{% endblock scripts %}
